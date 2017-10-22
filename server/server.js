@@ -1,14 +1,29 @@
+//packages
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+
+var jwt = require('jsonwebtoken');
+var config = require('./config');
+
+//models
 var User = require('./models/user');
 
+//variables
 var app = express();
 
-//connect to db
-mongoose.connect('mongodb://localhost:27017/bulkr');
+//configuration
+var port = process.env.PORT || 3000;
+mongoose.connect(config.database);
+app.set('superSecret',config.secret);
 
-app.listen(3000, function(){
-    console.log('SERVER RUNNING ON 3000');
+//use body parser to get info from POST and URL parameters
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+app.listen(port, function(){
+    console.log('SERVER RUNNING ON ' + port);
 });
 
 app.get('/',function(request, response){
@@ -21,8 +36,8 @@ app.get("/api",function(request, response){
 
 app.get("/api/add",function(request,response){
     var chris = new User({
-        email: 'brinte',
-        password: 'hello'
+        email: 'brentvanvosselen@live.be',
+        password: 'hallo'
     });
 
     chris.save(function(err){
@@ -32,4 +47,43 @@ app.get("/api/add",function(request,response){
     })
 
     response.send("user added");
+});
+
+app.get("/api/users",function(req,res){
+    User.find({},function(err,users){
+        res.json(users);
+    });
+});
+
+//authenticate a user
+app.post("/api/authenticate",function(req,res){
+    //find user
+    User.findOne({
+        name: req.body.name
+    },function(err,user){
+        if(err) throw err;
+        if(!user){
+            res.json({success:false, message: 'Authentication failed. User not found.'});
+        }else if(user){
+            //check if password matches
+            if(user.password != req.body.password){
+                res.json({success:false, message: 'Authentication failed. Wrong password.'});
+            }else{
+                //if user found and password right
+                //create a token with only our given payload
+                const payload= {
+                    email: user.email
+                };
+                var token = jwt.sign(payload, app.get('superSecret'),{
+                    expiresIn: 1440 //the password expires in 24 hours
+                });
+                // return the info and token as JSON
+                res.json({
+                    success: true,
+                    message: 'token found',
+                    token: token
+                });
+            }
+        }
+    });
 });
