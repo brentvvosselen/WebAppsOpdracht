@@ -1,0 +1,22 @@
+{
+  "name": "bulkr.",
+  "version": "1.0.0",
+  "description": "A meal app to share bulking meals.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brentvvosselen/WebAppsOpdracht.git"
+  },
+  "author": "Brent Van Vosselen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brentvvosselen/WebAppsOpdracht/issues"
+  },
+  "homepage": "https://github.com/brentvvosselen/WebAppsOpdracht#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
