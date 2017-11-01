@@ -143,6 +143,21 @@ app.get("/api/recipe/getAll/:email", function (req, res) {
         });
 });
 
+//get one full recipe
+app.get("/api/recipe/get/:id",function(req,res){
+    Recipe.findOne({
+        _id: req.params.id
+    }).populate('likes',['email'])
+    .exec(function(err,recipe){
+        if(err || recipe === null){
+            res.status(500).send("Recipe could not be retrieved");
+        }else{
+            res.json(recipe);
+        }
+});
+});
+
+//save a recipe
 app.put("/api/recipe/save/:email", function (req, res) {
     User.findOne({
         email: req.params.email
