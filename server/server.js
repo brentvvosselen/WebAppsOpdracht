@@ -142,3 +142,29 @@ app.get("/api/recipe/getAll/:email",function(req,res){
         }
     });
 });
+
+app.put("/api/recipe/save/:email",function(req,res){
+    User.findOne({
+        email: req.params.email
+    },function(err, user){
+        if(err || user === null){
+            res.status(500).send("User could not be retrieved");
+        }else{
+            Recipe.findOne({
+                _id: req.body.recipeid
+            },function(err, recipe){
+                if(err || recipe === null){
+                    res.status(500).send("Recipe could not be retrieved");
+                }else{
+                    user.saves.push(recipe);
+                    user.save(function(err){
+                        if(err){
+                            res.status(500).send("Recipe could not be saved");
+                        }else{
+                            res.json("You saved the recipe");
+                        }
+                    });
+                }});
+            }});
+        }
+    );

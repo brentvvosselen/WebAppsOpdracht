@@ -8,7 +8,8 @@ var userSchema = new Schema({
     lastname: String,
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    posts: [{type: Schema.ObjectId, ref: 'Recipe'}]
+    posts: [{type: Schema.ObjectId, ref: 'Recipe'}],
+    saves: [{type: Schema.ObjectId, ref: 'Recipe'}]
 });
 
 
