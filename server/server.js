@@ -130,41 +130,85 @@ app.post("/api/recipe/add/:email", function (req, res) {
 });
 
 //this gives you all the recipes from the current user
-app.get("/api/recipe/getAll/:email",function(req,res){
+app.get("/api/recipe/getAll/:email", function (req, res) {
     User.findOne({
         email: req.params.email
     }).populate('posts')
-    .exec(function(err, user){
-        if(err || user === null ){
-            res.status(500).send("User could not be retrieved");
-        }else{
-            res.json(user.posts);
-        }
-    });
+        .exec(function (err, user) {
+            if (err || user === null) {
+                res.status(500).send("User could not be retrieved");
+            } else {
+                res.json(user.posts);
+            }
+        });
 });
 
-app.put("/api/recipe/save/:email",function(req,res){
+app.put("/api/recipe/save/:email", function (req, res) {
     User.findOne({
         email: req.params.email
-    },function(err, user){
-        if(err || user === null){
+    }, function (err, user) {
+        if (err || user === null) {
             res.status(500).send("User could not be retrieved");
-        }else{
+        } else {
             Recipe.findOne({
                 _id: req.body.recipeid
-            },function(err, recipe){
-                if(err || recipe === null){
+            }, function (err, recipe) {
+                if (err || recipe === null) {
                     res.status(500).send("Recipe could not be retrieved");
-                }else{
+                } else {
                     user.saves.push(recipe);
-                    user.save(function(err){
-                        if(err){
+                    user.save(function (err) {
+                        if (err) {
                             res.status(500).send("Recipe could not be saved");
-                        }else{
+                        } else {
                             res.json("You saved the recipe");
                         }
                     });
-                }});
-            }});
+                }
+            });
         }
-    );
+    });
+}
+);
+
+//get all the saved recipes of user
+app.get("/api/recipes/saved/:email",function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).populate('saves')
+    .exec(function(err,user){
+        if(err || user === null){
+            res.status(500).send("User could not be retrieved");
+        }else{
+            res.json(user.saves);
+        }
+    })
+});
+
+//like a recipe
+app.put('/api/recipes/like/:email',function(req,res){
+    Recipe.findOne({
+        _id: req.body.recipeid
+    },function(err, recipe){
+        if(err || recipe === null){
+            res.status(500).send("Recipe could not be retrieved");
+        }else{
+            User.findOne({
+                email: req.params.email
+            },function(err,user){
+                if(err || user === null){
+                    res.status(500).send("User could not be retrieved");
+                }else{
+                    recipe.likes.push(user);
+                    recipe.save(function(err){
+                        if(err){
+                            res.status(500).send("Recipe could not be liked");
+                        }else{
+                            res.json("Recipe liked");
+                        }
+                    })
+                }
+            });
+        }
+    });
+});
