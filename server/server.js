@@ -112,24 +112,33 @@ app.post("/api/recipe/add/:email", function (req, res) {
                 });
                 user.posts.push(recipe);
                 recipe.save(function (err) {
-                    if (err){
+                    if (err) {
                         res.status(500).send("Recipe could not be saved");
-                    }else{
+                    } else {
                         user.save(function (err) {
-                            if (err){
-                                res.status(500).send("Recipe could not be added to the user");    
-                            }else{
+                            if (err) {
+                                res.status(500).send("Recipe could not be added to the user");
+                            } else {
                                 res.json("Succes");
                             }
                         });
                     }
-                    
                 });
-                
-                
             }
-
         }
     });
+});
 
+//this gives you all the recipes from the current user
+app.get("/api/recipe/getAll/:email",function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).populate('posts')
+    .exec(function(err, user){
+        if(err || user === null ){
+            res.status(500).send("User could not be retrieved");
+        }else{
+            res.json(user.posts);
+        }
+    });
 });
