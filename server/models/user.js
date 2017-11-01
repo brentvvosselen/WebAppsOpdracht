@@ -1,12 +1,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Recipe = require('./recipe');
 
 //create a schema 
 var userSchema = new Schema({
     firstname: String,
     lastname: String,
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    posts: [{type: Schema.ObjectId, ref: 'Recipe'}]
 });
 
 
