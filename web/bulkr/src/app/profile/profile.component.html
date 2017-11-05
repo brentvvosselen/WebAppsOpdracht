@@ -1,5 +1,10 @@
 <div class="container-fluid">
   <h1>These are your posts.</h1>
 
-  
+  <div *ngFor="let post of posts" style="border: 1px solid lightgray; border-radius: 5px; margin: 1em;padding:1em;">
+    <h4>{{post.title}}</h4>
+    <p>{{post.createdAt| date : "HH:mm, dd MMMM yyyy"}}</p>
+    <p>{{post.description}}</p>
+  </div>
+
 </div>

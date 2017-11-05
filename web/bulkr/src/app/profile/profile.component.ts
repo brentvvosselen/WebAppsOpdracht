@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
-import { Recipe } from '../models/recipe';
+import { Post } from '../models/recipe';
 
 @Component({
   selector: 'app-profile',
@@ -9,17 +9,14 @@ import { Recipe } from '../models/recipe';
 })
 export class ProfileComponent implements OnInit {
 
-  private _recipes: Recipe[];
+  private posts: Post[];
 
   constructor(private _profileService: ProfileService) { }
 
   ngOnInit() {
-    console.log("executing");
-    this._profileService.getMyPosts("brentvanvosselen@live.be").subscribe(recipes => {
-      this._recipes = recipes;
-    console.log(recipes);});
-    console.log(this._recipes);
-    console.log("end");
+    console.log("getting posts");
+    this._profileService.getMyPosts("brentvanvosselen@live.be").subscribe(posts => this.posts = posts);
+    
   }
 
 }
