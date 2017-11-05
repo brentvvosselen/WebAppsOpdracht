@@ -23,6 +23,13 @@ app.set('superSecret', config.secret);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Resolves the Access-Control-Allow-Origin error in the console
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+  });
+  
 app.listen(port, function () {
     console.log('SERVER RUNNING ON ' + port);
 });
