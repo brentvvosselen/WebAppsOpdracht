@@ -3,7 +3,7 @@ import { Http, Response} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
-import { Post } from '../models/recipe';
+import { Post } from '../models/post';
 @Injectable()
 export class ProfileService {
 

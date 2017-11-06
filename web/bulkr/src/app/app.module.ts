@@ -10,6 +10,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { FeedComponent } from './feed/feed.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PostViewComponent } from './post-view/post-view.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ProfileComponent } from './profile/profile.component';
     NavigationComponent,
     FeedComponent,
     NotFoundComponent,
-    ProfileComponent
+    ProfileComponent,
+    PostViewComponent
   ],
   imports: [
     BrowserModule,
