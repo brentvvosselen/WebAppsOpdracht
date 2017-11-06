@@ -1,10 +1,37 @@
 <div class="container-fluid">
   <h1>These are your posts.</h1>
 
-  <div *ngFor="let post of posts" style="border: 1px solid lightgray; border-radius: 5px; margin: 1em;padding:1em;">
-    <h4>{{post.title}}</h4>
-    <p>{{post.createdAt| date : "HH:mm, dd MMMM yyyy"}}</p>
-    <p>{{post.description}}</p>
+  <div *ngFor="let post of posts">
+    <div class="card col-xs-12 col-md-10 col-md-offset-1">
+      <div class="card-content">
+          <div class="img-left">
+              <img class="post-img" src="https://scontent-bru2-1.xx.fbcdn.net/v/t31.0-8/21122709_10150921419159957_4493853260899472933_o.jpg?oh=5fa09d9a6f7e9dc473c3ef64b69f186a&oe=5A627279"/>
+            </div>
+            <div class="post-content">
+              <h4>{{post.title}}</h4>
+              <p class="create">{{post.createdAt| date : "HH:mm, dd MMMM yyyy"}}</p>
+              <p>{{post.description}}</p>
+
+             
+            </div>
+            <div class="actions">
+                <div class="line"></div>
+                <div class="text-center">
+                    <ul class="action-list">
+                        <li><a href="#">SAVE</a></li>
+                        <li><a href="#">COMMENT</a></li>
+                        <li><a href="#">BULK IT</a></li>
+                      </ul>
+                    </div>
+                
+          </div>
+            </div>
+            
+      
+      
+    </div>
+    
+    
   </div>
 
 </div>
