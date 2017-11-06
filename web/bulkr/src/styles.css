@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body{
     background-color: beige;
+    overflow-x: hidden;
 }
 
 
@@ -76,4 +77,36 @@ body{
     bottom:0;
     left:0;
     width:100%;
+}
+
+.navbar{
+    background-color:#B0483D;
+    padding-top: 5em;
+    margin-top: -3em;
+    padding-left: 1em;
+    padding-right: 2em;
+    margin-left: -1em;
+    margin-right: -2em;
+    transform: rotate(-5deg);
+}
+.navbar-header .navbar-brand{
+    color:white;
+}
+.navbar-collapse{
+    border:none;
+    box-shadow:none;
+}
+.navbar-default .navbar-nav>li>a{
+    color:white;
+}
+
+.navbar-toggle{
+    border:none;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+    background:none;
+}
+.navbar-default .navbar-toggle .icon-bar{
+    background-color:white;
+    margin: .5em 0;
 }
