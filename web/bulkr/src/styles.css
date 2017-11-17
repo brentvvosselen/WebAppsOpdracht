@@ -4,6 +4,9 @@ body{
     overflow-x: hidden;
 }
 
+a{
+    cursor:pointer;
+}
 
 .post-img{
     width:150px;
@@ -81,14 +84,16 @@ body{
 
 .navbar{
     background-color:#B0483D;
-    padding-top: 5em;
+    border:none;
+   /* padding-top: 5em;
     margin-top: -3em;
     padding-left: 1em;
     padding-right: 2em;
     margin-left: -1em;
     margin-right: -2em;
-    transform: rotate(-5deg);
+    transform: rotate(-5deg);*/
 }
+
 .navbar-header .navbar-brand{
     color:white;
 }

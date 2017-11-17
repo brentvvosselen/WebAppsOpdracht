@@ -14,6 +14,9 @@ var Recipe = require('./models/recipe');
 //variables
 var app = express();
 
+//morgan
+app.use(morgan("dev"));
+
 //configuration
 var port = process.env.PORT || 3000;
 mongoose.connect(config.database);
@@ -26,6 +29,7 @@ app.use(bodyParser.json());
 // Resolves the Access-Control-Allow-Origin error in the console
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
@@ -165,7 +169,8 @@ app.get("/api/recipe/get/:id",function(req,res){
 });
 
 //save a recipe
-app.put("/api/recipe/save/:email", function (req, res) {
+app.post("/api/recipe/save/:email", function (req, res) {;
+    console.log(req.body);
     User.findOne({
         email: req.params.email
     }, function (err, user) {

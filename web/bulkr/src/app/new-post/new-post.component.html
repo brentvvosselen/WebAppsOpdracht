@@ -1,0 +1,11 @@
+<h2>Post Toevoegen</h2>
+<div class="container-fluid">
+  <form (ngSubmit)="add()" #postForm="ngForm">
+    <input type="text" class="form-control" [(ngModel)]="post.title" name="title" placeholder="title"/>
+
+    <input type="text" class="form-control" [(ngModel)]="post.description" name="title" placeholder="description"/>
+    
+    <button class="btn btn-primary" type="submit">Voeg toe</button>
+  </form>
+  </div>
+
