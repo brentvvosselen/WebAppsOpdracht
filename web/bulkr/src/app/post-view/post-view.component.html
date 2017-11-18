@@ -15,9 +15,11 @@
                 <div class="line"></div>
                 <div class="text-center">
                     <ul class="action-list">
-                        <li><a  (click)="save()">SAVE</a></li>
-                        <li><a href="#">COMMENT</a></li>
-                        <li><a href="#">BULK IT</a></li>
+                        <li *ngIf="!saved"><a (click)="save()"> SAVE</a></li>
+                        <li *ngIf="saved"><a>SAVED</a></li>
+                        <li><a >COMMENT</a></li>
+                        <li *ngIf="!liked"><a (click)="bulkit()"><span class="likes">{{likes}}</span> BULK IT</a></li>
+                        <li *ngIf="liked"><a><span class="likes">{{likes}}</span> YOU BULKED IT</a></li>
                       </ul>
                     </div>
                 

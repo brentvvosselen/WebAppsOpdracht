@@ -14,6 +14,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostViewComponent } from './post-view/post-view.component';
 import { NewPostComponent } from './new-post/new-post.component';
+import { SavedPostsComponent } from './saved-posts/saved-posts.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NewPostComponent } from './new-post/new-post.component';
     NotFoundComponent,
     ProfileComponent,
     PostViewComponent,
-    NewPostComponent
+    NewPostComponent,
+    SavedPostsComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { NewPostComponent } from './new-post/new-post.component';
       { path: "feed", component:FeedComponent},
       { path: "profile", component:ProfileComponent},
       { path: "new", component:NewPostComponent}, 
+      { path: "saves", component:SavedPostsComponent},
       { path: "", component:FeedComponent},
       { path: "**", component:NotFoundComponent}
         

@@ -144,11 +144,28 @@ app.post("/api/recipe/add/:email", function (req, res) {
 app.get("/api/recipe/getAll/:email", function (req, res) {
     User.findOne({
         email: req.params.email
-    }).populate('posts')
+    }).populate({
+        path:'posts',
+        model: 'Recipe',
+        populate:[
+            {
+                path:'likes',
+                model:'User',
+                select:['email']
+            },
+            {
+                path:'saves',
+                model:'User',
+                select:['email']
+            }
+        ]
+           
+    })
         .exec(function (err, user) {
             if (err || user === null) {
                 res.status(500).send("User could not be retrieved");
             } else {
+                console.log(user.posts);
                 res.json(user.posts);
             }
         });
@@ -183,12 +200,20 @@ app.post("/api/recipe/save/:email", function (req, res) {;
                 if (err || recipe === null) {
                     res.status(500).send("Recipe could not be retrieved");
                 } else {
+                    recipe.saves.push(user);
                     user.saves.push(recipe);
                     user.save(function (err) {
                         if (err) {
                             res.status(500).send("Recipe could not be saved");
                         } else {
-                            res.json("You saved the recipe");
+                            recipe.save(function (err){
+                                if(err){
+                                    res.status(500).send("Recipe could not be saved");
+                                }else{
+                                    res.json("You saved the recipe");
+                                }
+                            })
+                            
                         }
                     });
                 }

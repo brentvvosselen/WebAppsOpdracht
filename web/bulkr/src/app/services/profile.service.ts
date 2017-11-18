@@ -11,6 +11,6 @@ export class ProfileService {
 
   getMyPosts(email : string): Observable<Post[]>{
     return this.http.get('http://localhost:3000/api/recipe/getAll/' + email).map((response: Response) => response.json()
-  .map(item => new Post(item._id, item.title,item.description, item.createdAt)));
+  .map(item => new Post(item._id, item.title,item.description, item.createdAt, item.likes, item.saves)));
   }
 }
