@@ -55,14 +55,70 @@ app.get("/api", function (request, response) {
 app.get("/api/add", function (request, response) {
     var chris = new User({
         email: 'brentvanvosselen@live.be',
-        password: 'hallo'
+        password: 'hallo',
     });
+
+    var u1 = new User({
+        email: 'joshivermeire@hotmail.com',
+        password:'hallo'
+    });
+
+    var u2 = new User({
+        email: 'josje@hotmail.com',
+        password:'hallo'
+    });
+
+    var u3 = new User({
+        email: 'dylanverstraete@hotmail.com',
+        password:'hallo'
+    });
+
+    var u4 = new User({
+        email: 'dylano@hotmail.com',
+        password:'hallo'
+    });
+
+    var u5 = new User({
+        email: 'jess@hotmail.com',
+        password:'hallo'
+    });
+
+    var u6 = new User({
+        email: 'jessica@hotmail.com',
+        password:'hallo'
+    });
+    
 
     chris.save(function (err) {
         if (err) throw err;
-
         console.log('user saved');
-    })
+    });
+
+    u1.save(function(err){
+        if(err)throw err;
+        console.log('user saved');
+    });
+    u2.save(function(err){
+        if(err)throw err;
+        console.log('user saved');
+    });
+    u3.save(function(err){
+        if(err)throw err;
+        console.log('user saved');
+    });
+    u4.save(function(err){
+        if(err)throw err;
+        console.log('user saved');
+    });
+    u5.save(function(err){
+        if(err)throw err;
+        console.log('user saved');
+    });
+    u6.save(function(err){
+        if(err)throw err;
+        console.log('user saved');
+    });
+
 
     response.send("user added");
 });
@@ -72,6 +128,7 @@ app.get("/api/users", function (req, res) {
         res.json(users);
     });
 });
+
 
 //authenticate a user
 app.post("/api/authenticate", function (req, res) {
@@ -105,6 +162,58 @@ app.post("/api/authenticate", function (req, res) {
         }
     });
 });
+
+//gets one user for profile view
+app.get("/api/user/:email",function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).select(['_id','email','posts','followers']).populate({
+        path:'posts',
+        model: 'Recipe',
+        populate:[
+            {
+                path:'likes',
+                model:'User',
+                select:['email']
+            },
+            {
+                path:'saves',
+                model:'User',
+                select:['email']
+            }
+        ]
+           
+    })
+    .exec(function(err,user){
+        if(err)throw err;
+        console.log(user);
+        res.json(user);
+    })
+});
+
+//follow a user
+app.post("/api/user/:email/follow/:id",function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).select('follows')
+    .exec(function(err,you){
+        if(err)throw err;
+        User.findOne({
+            _id: req.params.id
+        },function(err,other){
+            if(err)throw err;
+            you.follows.push(other);
+            other.followers += 1;
+            you.save(function(err){
+                if(err)throw err;
+                other.save(function(err){
+                    if(err)throw err;
+                    res.json("Followed " + other.email);
+                });
+            });
+        });
+    })
+})
 
 //this lets you post a new recipe to the user of email given as parameter
 app.post("/api/recipe/add/:email", function (req, res) {
@@ -227,11 +336,28 @@ app.post("/api/recipe/save/:email", function (req, res) {;
 app.get("/api/recipes/saved/:email",function(req,res){
     User.findOne({
         email: req.params.email
-    }).populate('saves')
+    }).populate({
+        path:'saves',
+        model: 'Recipe',
+        populate:[
+            {
+                path:'likes',
+                model:'User',
+                select:['email']
+            },
+            {
+                path:'saves',
+                model:'User',
+                select:['email']
+            }
+        ]
+           
+    })
     .exec(function(err,user){
         if(err || user === null){
             res.status(500).send("User could not be retrieved");
         }else{
+            console.log(user.saves);
             res.json(user.saves);
         }
     })

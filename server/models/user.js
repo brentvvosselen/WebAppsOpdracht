@@ -9,7 +9,9 @@ var userSchema = new Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     posts: [{type: Schema.ObjectId, ref: 'Recipe'}],
-    saves: [{type: Schema.ObjectId, ref: 'Recipe'}]
+    saves: [{type: Schema.ObjectId, ref: 'Recipe'}],
+    follows: [{type: Schema.ObjectId, ref: 'User'}],
+    followers: {type: Number, required: true, default:0}
 });
 
 

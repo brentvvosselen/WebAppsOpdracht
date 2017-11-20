@@ -20,6 +20,8 @@ export class PostViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.post);
+    console.log(this.post.saves);
     this.likes = Object.keys(this.post.likes).length;
     /*check if liked*/
     for(let user of this.post.likes){

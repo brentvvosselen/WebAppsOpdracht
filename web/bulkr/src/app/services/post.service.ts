@@ -19,7 +19,7 @@ export class PostService {
   }
 
   getSavedPosts(email: string): Observable<Post[]>{
-    return this.http.get("http://localhost:3000/api/recipes/saved/"+ email).map((response: Response) => response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes)));
+    return this.http.get("http://localhost:3000/api/recipes/saved/"+ email).map((response: Response) => response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes,item.saves)));
   }
 
   bulkPost(email: string, recipeid: string){

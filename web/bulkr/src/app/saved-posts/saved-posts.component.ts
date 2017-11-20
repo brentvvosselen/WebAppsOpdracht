@@ -14,7 +14,7 @@ export class SavedPostsComponent implements OnInit {
   constructor(private postService: PostService) { }
 
   ngOnInit() {
-    this.postService.getSavedPosts("brentvanvosselen@live.be").subscribe(posts => this.savedPosts = posts);
+    this.postService.getSavedPosts("brentvanvosselen@live.be").subscribe(posts => {this.savedPosts = posts; console.log(posts);});
     console.log(this.savedPosts);
   }
 
