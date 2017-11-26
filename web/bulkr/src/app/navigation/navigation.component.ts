@@ -13,4 +13,8 @@ export class NavigationComponent implements OnInit {
   ngOnInit() {
   }
 
+  search(value: HTMLInputElement){
+    console.log(value.value);
+  }
+
 }
