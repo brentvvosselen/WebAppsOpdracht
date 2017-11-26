@@ -192,14 +192,14 @@ app.get("/api/user/:email",function(req,res){
 });
 
 //follow a user
-app.post("/api/user/:email/follow/:id",function(req,res){
+app.post("/api/user/:email/follow/:followEmail",function(req,res){
     User.findOne({
         email: req.params.email
     }).select('follows')
     .exec(function(err,you){
         if(err)throw err;
         User.findOne({
-            _id: req.params.id
+            email: req.params.followEmail
         },function(err,other){
             if(err)throw err;
             you.follows.push(other);
@@ -365,6 +365,7 @@ app.get("/api/recipes/saved/:email",function(req,res){
 
 //like a recipe
 app.put('/api/recipes/like/:email',function(req,res){
+    console.log(req.body);
     Recipe.findOne({
         _id: req.body.recipeid
     },function(err, recipe){

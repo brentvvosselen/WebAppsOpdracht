@@ -6,7 +6,7 @@ var Recipe = require('./recipe');
 var userSchema = new Schema({
     firstname: String,
     lastname: String,
-    email: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true, es_indexed: true},
     password: {type: String, required: true},
     posts: [{type: Schema.ObjectId, ref: 'Recipe'}],
     saves: [{type: Schema.ObjectId, ref: 'Recipe'}],

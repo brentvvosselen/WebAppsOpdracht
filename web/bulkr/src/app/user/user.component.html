@@ -1,0 +1,7 @@
+<div class="container-fluid">
+  <h1>This is the profile of {{user.email}}<a class="btn btn-default" (click)="follow()">volg</a></h1>
+  <h2 *ngIf="user.posts.length === 0">The user has no posts.</h2>
+  <app-post-view *ngFor="let post of user.posts" [post]="post"></app-post-view>
+
+  
+</div>

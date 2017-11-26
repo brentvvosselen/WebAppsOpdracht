@@ -15,6 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PostViewComponent } from './post-view/post-view.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { SavedPostsComponent } from './saved-posts/saved-posts.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SavedPostsComponent } from './saved-posts/saved-posts.component';
     ProfileComponent,
     PostViewComponent,
     NewPostComponent,
-    SavedPostsComponent
+    SavedPostsComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ import { SavedPostsComponent } from './saved-posts/saved-posts.component';
     RouterModule.forRoot([
       { path: "feed", component:FeedComponent},
       { path: "profile", component:ProfileComponent},
+      { path: "profile/:email", component:UserComponent},
       { path: "new", component:NewPostComponent}, 
       { path: "saves", component:SavedPostsComponent},
       { path: "", component:FeedComponent},

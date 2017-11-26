@@ -20,8 +20,9 @@ export class PostViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.post);
-    console.log(this.post.saves);
+    if(this.post.id === undefined){
+      this.post.id = this.post._id;
+    }
     this.likes = Object.keys(this.post.likes).length;
     /*check if liked*/
     for(let user of this.post.likes){
@@ -35,6 +36,7 @@ export class PostViewComponent implements OnInit {
         this.saved = true;
       }
     }
+
   }
 
   save(){
@@ -47,6 +49,7 @@ export class PostViewComponent implements OnInit {
 
   bulkit(){
     if(!this.liked){
+      console.log(this.post.id);
       this.postService.bulkPost("brentvanvosselen@live.be",this.post.id).subscribe(res => console.log(res));
       this.likes += 1;
       this.liked = true;
