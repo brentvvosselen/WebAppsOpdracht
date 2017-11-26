@@ -21,6 +21,9 @@ export class ProfileService {
 
   follow(email: string, followEmail: string){
     return this.http.post('http://localhost:3000/api/user/'+ email + '/follow/'+ followEmail, null).map((response: Response) => response.json());
-    
+  }
+
+  findUser(value: string): Observable<String[]>{
+    return this.http.get('http://localhost:3000/api/user/find/' + value).map((response: Response) => response.json().map(user => user.email));
   }
 }

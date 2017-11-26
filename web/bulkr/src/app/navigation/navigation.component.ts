@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,13 +9,19 @@ import { Router } from '@angular/router';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  private foundUsers: String[];
+
+  constructor(private router: Router, private profileService: ProfileService) { }
 
   ngOnInit() {
   }
 
-  search(value: HTMLInputElement){
-    console.log(value.value);
+  search(string: HTMLInputElement){
+    console.log(string.value)
+    
+    this.profileService.findUser(string.value).subscribe(e => {
+       this.foundUsers = e;
+    });
   }
 
 }

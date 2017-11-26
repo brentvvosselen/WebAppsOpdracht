@@ -39,6 +39,11 @@
             </div>
           </form>
           <ul class="search-results">
+            <div *ngFor="let user of foundUsers">
+              <li>
+                <a href="/profile/{{user}}">{{user}}</a>
+              </li>
+            </div>
           </ul>
         </li>
       </ul>

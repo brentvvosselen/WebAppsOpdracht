@@ -1,3 +1,19 @@
 .right{
     float:right;
 }
+.search-results{
+    position: absolute;
+    z-index: 1000;
+    width:100%;
+    list-style: none;
+    background: white;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.navbar-form{
+    padding:0;
+    margin-bottom:0;
+}
+
+button, input{
+    border-radius: 0;
+}

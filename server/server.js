@@ -191,6 +191,17 @@ app.get("/api/user/:email",function(req,res){
     })
 });
 
+//find users
+app.get("/api/user/find/:string",function(req,res){
+    User.find({
+        email: {"$regex": req.params.string, "$options":"i"}
+    }).select('email')
+    .exec(function(err,users){
+        if(err) res.status(500).send(err);
+        res.send(users);
+    });
+});
+
 //follow a user
 app.post("/api/user/:email/follow/:followEmail",function(req,res){
     User.findOne({
