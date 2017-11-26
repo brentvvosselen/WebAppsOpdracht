@@ -1,4 +1,9 @@
 <div class="container-fluid">
     <h1>Welcome to your feed.</h1>
     <a routerLink="/new" routerLinkActive="active">Post een nieuw recept.</a>
+{{posts.length}}
+    <app-post-view *ngFor="let post of posts" [post]="post"></app-post-view>
+   
 </div>
+
+<button (click)="more()">MEER POSTS</button>

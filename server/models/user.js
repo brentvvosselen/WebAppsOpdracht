@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 var Schema = mongoose.Schema;
 var Recipe = require('./recipe');
 
@@ -13,7 +14,7 @@ var userSchema = new Schema({
     follows: [{type: Schema.ObjectId, ref: 'User'}],
     followers: {type: Number, required: true, default:0}
 });
-
+userSchema.plugin(mongoosePaginate);
 
 //create a model to use the schema
 var User = mongoose.model('User',userSchema);

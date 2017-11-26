@@ -26,4 +26,8 @@ export class PostService {
     return this.http.put("http://localhost:3000/api/recipes/like/"+email, {recipeid: recipeid}).map((response: Response) => response.json());
   }
 
+  fillFeed(email: string, page: number): Observable<Post[]>{
+    return this.http.get("http://localhost:3000/api/feed/" + email + "/" + page).map((response: Response)=> response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes, item.saves)));
+  }
+
 }

@@ -391,3 +391,51 @@ app.put('/api/recipes/like/:email',function(req,res){
         }
     });
 });
+
+//feed
+app.get('/api/feed/:email/:page',function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).select('follows').populate({
+        path:'follows',
+        model:'User',
+        populate:{
+            path:'posts',
+            model: 'Recipe',
+            populate:[
+                {
+                    path:'likes',
+                    model:'User',
+                    select:['email']
+                },
+                {
+                    path:'saves',
+                    model:'User',
+                    select:['email']
+                }
+            ]
+        }
+    })
+    .exec(function(err, user){
+        if(err) res.status(500).send("Recipe not found");
+        
+        var users = user.follows;
+        var posts = [];
+        users.forEach(element => {
+            var userposts = element.posts;
+            userposts.forEach(post => {
+                posts.push(post);
+            })
+        });
+
+        
+        var index = req.params.page;
+        posts.sort(function(a,b){
+            return a.createdAt - b.createdAt;
+        });
+
+        posts = posts.slice(index * 3, index*3 + 3);
+        console.log(posts);
+        res.json(posts);
+    });
+});
