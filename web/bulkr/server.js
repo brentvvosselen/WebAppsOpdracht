@@ -22,6 +22,12 @@ var port = process.env.PORT || 3000;
 mongoose.connect(config.database);
 app.set('superSecret', config.secret);
 
+/*app.use(express.static(path.join(__dirname,'dist')));
+app.all('*',(req,res) => {
+    const indexFile = `${path.join(__dirname, 'dist')}/index.html`;
+    res.status(200).sendFile(indexFile);
+})*/
+
 //use body parser to get info from POST and URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
