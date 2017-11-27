@@ -9,7 +9,7 @@ import { ProfileService } from '../services/profile.service';
 })
 export class NavigationComponent implements OnInit {
 
-  private foundUsers: String[];
+  private _foundUsers: String[];
 
   constructor(private router: Router, private profileService: ProfileService) { }
 
@@ -20,8 +20,12 @@ export class NavigationComponent implements OnInit {
     console.log(string.value)
     
     this.profileService.findUser(string.value).subscribe(e => {
-       this.foundUsers = e;
+       this._foundUsers = e;
     });
+  }
+
+  get foundUsers(): String[]{
+    return this._foundUsers;
   }
 
 }

@@ -9,17 +9,21 @@ import { PostService } from '../services/post.service';
 })
 export class NewPostComponent implements OnInit {
   
-  private post: Post;
+  private _post: Post;
   currentUser: String;
 
   constructor(private postService: PostService) { }
 
   ngOnInit() {
-    this.post = new Post();
+    this._post = new Post();
   }
 
   add(){
-    this.postService.addPost("brentvanvosselen@live.be",this.post).subscribe(res => (console.log(res)));
+    this.postService.addPost("brentvanvosselen@live.be",this._post).subscribe(res => (console.log(res)));
+  }
+
+  get post():Post{
+    return this._post;
   }
 
 }

@@ -9,13 +9,13 @@ import { PostService } from '../services/post.service';
 })
 export class FeedComponent implements OnInit {
 
-  private posts: Post[] = [];
-  private counter: number = 0;
+  private _posts: Post[] = [];
+  private _counter: number = 0;
 
   constructor(private postService: PostService) { 
-    this.postService.fillFeed("brentvanvosselen@live.be",this.counter).subscribe(posts => {
+    this.postService.fillFeed("brentvanvosselen@live.be",this._counter).subscribe(posts => {
       posts.forEach(e => {
-        this.posts.push(e);
+        this._posts.push(e);
       });
     });
   }
@@ -24,12 +24,20 @@ export class FeedComponent implements OnInit {
     
   }
   more(){
-    this.counter++;
-    this.postService.fillFeed("brentvanvosselen@live.be",this.counter).subscribe(posts => {
+    this._counter++;
+    this.postService.fillFeed("brentvanvosselen@live.be",this._counter).subscribe(posts => {
       posts.forEach(e => {
-        this.posts.push(e);
+        this._posts.push(e);
       });
     });
+  }
+
+  get posts(): Post[]{
+    return this._posts;
+  }
+
+  get counter(): number{
+    return this._counter;
   }
 
 }

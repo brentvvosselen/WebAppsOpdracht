@@ -9,14 +9,18 @@ import { Post } from '../models/post';
 })
 export class ProfileComponent implements OnInit {
 
-  private posts: Post[];
+  private _posts: Post[];
 
   constructor(private _profileService: ProfileService) { }
 
   ngOnInit() {
     console.log("getting posts");
-    this._profileService.getMyPosts("brentvanvosselen@live.be").subscribe(posts => this.posts = posts);
+    this._profileService.getMyPosts("brentvanvosselen@live.be").subscribe(posts => this._posts = posts);
     
+  }
+
+  get posts(): Post[]{
+    return this._posts;
   }
 
 }

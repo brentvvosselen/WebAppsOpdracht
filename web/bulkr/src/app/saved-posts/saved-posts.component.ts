@@ -9,13 +9,17 @@ import { Post } from '../models/post';
 })
 export class SavedPostsComponent implements OnInit {
 
-  private savedPosts: Post[];
+  private _savedPosts: Post[];
 
   constructor(private postService: PostService) { }
 
   ngOnInit() {
-    this.postService.getSavedPosts("brentvanvosselen@live.be").subscribe(posts => {this.savedPosts = posts; console.log(posts);});
-    console.log(this.savedPosts);
+    this.postService.getSavedPosts("brentvanvosselen@live.be").subscribe(posts => {this._savedPosts = posts; console.log(posts);});
+    console.log(this._savedPosts);
+  }
+
+  get savedPosts(): Post[]{
+    return this._savedPosts;
   }
 
 }
