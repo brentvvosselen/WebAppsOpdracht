@@ -453,8 +453,8 @@ app.get('/api/feed/:email/:page',function(req,res){
     });
 });
 
-app.use(express.static(path.join(__dirname,'dist')));
+app.use(express.static(__dirname + 'dist'));
 app.all('*',(req,res) => {
-    const indexFile = `${path.join(__dirname, 'dist')}/index.html`;
+    const indexFile = `${__dirname}dist/index.html`;
     res.status(200).sendFile(indexFile);
 })
