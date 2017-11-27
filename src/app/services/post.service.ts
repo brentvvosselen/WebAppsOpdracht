@@ -15,19 +15,19 @@ export class PostService {
   }
 
   savePost(email: string, recipeid: string){
-    return this.http.post("http://localhost:3000/api/recipe/save/" + email, {recipeid: recipeid}).map((response: Response) => response.json());
+    return this.http.post("/api/recipe/save/" + email, {recipeid: recipeid}).map((response: Response) => response.json());
   }
 
   getSavedPosts(email: string): Observable<Post[]>{
-    return this.http.get("http://localhost:3000/api/recipes/saved/"+ email).map((response: Response) => response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes,item.saves)));
+    return this.http.get("/api/recipes/saved/"+ email).map((response: Response) => response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes,item.saves)));
   }
 
   bulkPost(email: string, recipeid: string){
-    return this.http.put("http://localhost:3000/api/recipes/like/"+email, {recipeid: recipeid}).map((response: Response) => response.json());
+    return this.http.put("/api/recipes/like/"+email, {recipeid: recipeid}).map((response: Response) => response.json());
   }
 
   fillFeed(email: string, page: number): Observable<Post[]>{
-    return this.http.get("http://localhost:3000/api/feed/" + email + "/" + page).map((response: Response)=> response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes, item.saves)));
+    return this.http.get("/api/feed/" + email + "/" + page).map((response: Response)=> response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes, item.saves)));
   }
 
 }

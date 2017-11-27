@@ -11,19 +11,19 @@ export class ProfileService {
   constructor(private http: Http) { }
 
   getMyPosts(email: string): Observable<Post[]>{
-    return this.http.get('http://localhost:3000/api/recipe/getAll/' + email).map((response: Response) => response.json()
+    return this.http.get('/api/recipe/getAll/' + email).map((response: Response) => response.json()
   .map(item => new Post(item._id, item.title,item.description, item.createdAt, item.likes, item.saves)));
   }
 
   getUserProfile(email: string): Observable<User>{
-    return this.http.get('http://localhost:3000/api/user/' + email).map((response: Response) => response.json());
+    return this.http.get('/api/user/' + email).map((response: Response) => response.json());
   }
 
   follow(email: string, followEmail: string){
-    return this.http.post('http://localhost:3000/api/user/'+ email + '/follow/'+ followEmail, null).map((response: Response) => response.json());
+    return this.http.post('/api/user/'+ email + '/follow/'+ followEmail, null).map((response: Response) => response.json());
   }
 
   findUser(value: string): Observable<String[]>{
-    return this.http.get('http://localhost:3000/api/user/find/' + value).map((response: Response) => response.json().map(user => user.email));
+    return this.http.get('/api/user/find/' + value).map((response: Response) => response.json().map(user => user.email));
   }
 }
