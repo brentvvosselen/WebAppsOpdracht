@@ -11,7 +11,7 @@ export class PostService {
   constructor(private http: Http) { }
 
   addPost(email: string, post: Post){
-    return this.http.post("http://localhost:3000/api/recipe/add/" + email, post).map((response: Response) => response.json());
+    return this.http.post("/api/recipe/add/" + email, post).map((response: Response) => response.json());
   }
 
   savePost(email: string, recipeid: string){
