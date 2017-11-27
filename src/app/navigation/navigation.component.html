@@ -23,7 +23,7 @@
         <li>
           <form class="navbar-form" role="search">
             <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" #value>
+            <input type="text" class="form-control" placeholder="Search" (keyup)="search(value)" #value>
               <span class="input-group-btn">
                 <button type="reset" class="btn btn-default">
                   <span class="glyphicon glyphicon-remove">
@@ -38,6 +38,7 @@
               </span>
             </div>
           </form>
+
           <ul class="search-results">
             <div *ngFor="let user of foundUsers">
               <li>
