@@ -4,8 +4,16 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
-var jwt = require('jsonwebtoken');
 var config = require('./config');
+
+var jwt = require('express-jwt')
+let auth = jwt({secret:config.secret, userProperty: 'payload'});
+
+
+
+let passport = require('passport');
+
+require('./passport');
 
 //models
 var User = require('./models/user');
@@ -22,8 +30,6 @@ var port = process.env.PORT || 3000;
 mongoose.connect(config.database);
 app.set('superSecret', config.secret);
 
-
-
 //use body parser to get info from POST and URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,6 +41,9 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
+
+//passport
+app.use(passport.initialize());
   
 app.listen(port, function () {
     console.log('SERVER RUNNING ON ' + port);
@@ -53,6 +62,38 @@ function handleError(res, reason, message, code) {
 app.get("/api", function (request, response) {
     response.send({ name: "Brent", age: 20 });
 });
+
+//register
+app.post('/api/register', function(req, res, next){
+    if(!req.body.email || !req.body.password){
+        return res.status(400).json({message: 'Please fill out all fields'});
+    }
+    var user = new User();
+    user.email = req.body.email;
+    user.setPassword(req.body.password);
+    user.save(function(err){
+        if(err){ return next(err); }
+        return res.json({token: user.generateJWT()});
+    });
+});
+
+//login
+app.post('/api/login',function(req, res, next){
+    if(!req.body.email || !req.body.password){
+        return res.status(400).json(
+            {message: 'Please fill out all fields'}
+        );
+    }
+    passport.authenticate('local', function(err, user, info){
+        if(err){ return next(err); }
+        if(user){
+            return res.json({token: user.generateJWT()});
+        }else{
+            return res.status(401).json(info);
+        }
+    })(req, res, next);
+})
+
 
 app.get("/api/add", function (request, response) {
     var chris = new User({
@@ -125,7 +166,7 @@ app.get("/api/add", function (request, response) {
     response.send("user added");
 });
 
-app.get("/api/users", function (req, res) {
+app.get("/api/users", auth, function (req, res) {
     User.find({}, function (err, users) {
         res.json(users);
     });
