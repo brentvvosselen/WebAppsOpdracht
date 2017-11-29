@@ -25,7 +25,7 @@ export class PostService {
   }
 
   bulkPost(email: string, recipeid: string){
-    return this.http.put(this._prefix + "/api/recipes/like/"+email, {recipeid: recipeid}).map((response: Response) => response.json());
+    return this.http.put(this._prefix + "/api/recipes/like/"+ email, {recipeid: recipeid}).map((response: Response) => response.json());
   }
 
   fillFeed(email: string, page: number): Observable<Post[]>{

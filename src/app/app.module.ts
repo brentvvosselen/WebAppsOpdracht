@@ -16,6 +16,8 @@ import { PostViewComponent } from './post-view/post-view.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { SavedPostsComponent } from './saved-posts/saved-posts.component';
 import { UserComponent } from './user/user.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { UserComponent } from './user/user.component';
     PostViewComponent,
     NewPostComponent,
     SavedPostsComponent,
-    UserComponent
+    UserComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
