@@ -84,6 +84,7 @@ app.post('/api/login',function(req, res, next){
             {message: 'Please fill out all fields'}
         );
     }
+    req.body.username = req.body.email;
     passport.authenticate('local', function(err, user, info){
         if(err){ return next(err); }
         if(user){
