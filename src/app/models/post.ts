@@ -1,4 +1,5 @@
 import {User} from './user';
+import {Image} from './image';
 
 export class Post {
     _id: string;
@@ -8,13 +9,15 @@ export class Post {
     likes: User[];
     saves: User[];
     createdAt: Date;
+    picture: Image;
 
-    constructor(id?: string,title?: string, description?:string, createdAt?:Date, likes?: User[], saves?: User[]){
+    constructor(id?: string,title?: string, description?:string, createdAt?:Date, likes?: User[], saves?: User[], picture?: Image){
         this.id = id;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
         this.likes = likes;
         this.saves = saves;
+        this.picture = picture;
     } 
 }

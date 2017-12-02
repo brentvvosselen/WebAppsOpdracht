@@ -23,7 +23,7 @@ export class PostViewComponent implements OnInit {
 
   ngOnInit() {
     this._user = this.authenticationService.user$.value;
-   
+    console.log(this.post);
     if(this.post.id === undefined){
       this.post.id = this.post._id;
     }

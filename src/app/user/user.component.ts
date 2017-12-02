@@ -25,6 +25,9 @@ export class UserComponent implements OnInit {
       this._user = user
       this._posts = this._user.posts.map(item => new Post(item["_id"],item.title,item.description,item.createdAt,item.likes,item.saves));
       console.log(this._user);
+      this.profileService.doesFollow(this.authenticationService.user$.value,this.user.email).subscribe(result => {
+        this._follows = result;
+      });
     });
 
     
@@ -32,11 +35,20 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    
   }
 
   follow(){
     console.log("follow");
     this.profileService.follow(this.authenticationService.user$.value,this.user.email).subscribe(result => console.log(result));
+    this._follows = true;
+  }
+
+  unfollow(){
+    console.log("unfollow");
+    this.profileService.unfollow(this.authenticationService.user$.value,this.user.email).subscribe(result => console.log(result));
+    this._follows = false;
   }
 
   get email(): string{

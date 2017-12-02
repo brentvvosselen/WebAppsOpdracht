@@ -21,7 +21,7 @@ export class PostService {
   }
 
   getSavedPosts(email: string): Observable<Post[]>{
-    return this.http.get(this._prefix + "/api/recipes/saved/"+ email, this.jwt()).map((response: Response) => response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes,item.saves)));
+    return this.http.get(this._prefix + "/api/recipes/saved/"+ email, this.jwt()).map((response: Response) => response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes,item.saves, item.picture)));
   }
 
   bulkPost(email: string, recipeid: string){
@@ -29,7 +29,7 @@ export class PostService {
   }
 
   fillFeed(email: string, page: number): Observable<Post[]>{
-    return this.http.get(this._prefix + "/api/feed/" + email + "/" + page, this.jwt()).map((response: Response)=> response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes, item.saves)));
+    return this.http.get(this._prefix + "/api/feed/" + email + "/" + page, this.jwt()).map((response: Response)=> response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes, item.saves, item.picture)));
   }
 
   private jwt() {

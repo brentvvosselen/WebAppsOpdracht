@@ -18,6 +18,7 @@ require('./passport');
 //models
 var User = require('./models/user');
 var Recipe = require('./models/recipe');
+var Image = require('./models/image');
 
 //variables
 var app = express();
@@ -108,78 +109,6 @@ app.post('/api/checkusername',function(req,res,next){
     })
 })
 
-
-app.get("/api/add", function (request, response) {
-    var chris = new User({
-        email: 'brentvanvosselen@live.be',
-        password: 'hallo',
-    });
-
-    var u1 = new User({
-        email: 'joshivermeire@hotmail.com',
-        password:'hallo'
-    });
-
-    var u2 = new User({
-        email: 'josje@hotmail.com',
-        password:'hallo'
-    });
-
-    var u3 = new User({
-        email: 'dylanverstraete@hotmail.com',
-        password:'hallo'
-    });
-
-    var u4 = new User({
-        email: 'dylano@hotmail.com',
-        password:'hallo'
-    });
-
-    var u5 = new User({
-        email: 'jess@hotmail.com',
-        password:'hallo'
-    });
-
-    var u6 = new User({
-        email: 'jessica@hotmail.com',
-        password:'hallo'
-    });
-    
-
-    chris.save(function (err) {
-        if (err) throw err;
-        console.log('user saved');
-    });
-
-    u1.save(function(err){
-        if(err)throw err;
-        console.log('user saved');
-    });
-    u2.save(function(err){
-        if(err)throw err;
-        console.log('user saved');
-    });
-    u3.save(function(err){
-        if(err)throw err;
-        console.log('user saved');
-    });
-    u4.save(function(err){
-        if(err)throw err;
-        console.log('user saved');
-    });
-    u5.save(function(err){
-        if(err)throw err;
-        console.log('user saved');
-    });
-    u6.save(function(err){
-        if(err)throw err;
-        console.log('user saved');
-    });
-
-
-    response.send("user added");
-});
-
 app.get("/api/users", auth, function (req, res) {
     User.find({}, function (err, users) {
         res.json(users);
@@ -237,6 +166,10 @@ app.get("/api/user/:email",auth, function(req,res,next){
                 path:'saves',
                 model:'User',
                 select:['email']
+            },
+            {
+                path:'picture',
+                model:'Image'
             }
         ]
            
@@ -280,11 +213,59 @@ app.post("/api/user/:email/follow/:followEmail",auth,function(req,res){
                 });
             });
         });
-    })
-})
+    });
+});
+
+//unfollow a user
+app.put("/api/user/:email/unfollow/:unfollowEmail",function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).select('follows')
+    .exec(function(err,you){
+        if(err) throw err;
+        User.findOne({
+            email: req.params.unfollowEmail
+        }).select('followers')
+        .exec(function(err, other){
+            if(err) throw err;
+            other.followers -= 1;
+            var index = you.follows.indexOf(other._id);
+            you.follows.splice(index,1);
+            you.save(function(err){
+                if(err)throw err;
+            });
+            other.save(function(err){
+                if(err) throw err;
+            });
+            res.json("succes");
+        })
+    });
+});
+
+//does follow user
+app.get("/api/user/:email/doesFollow/:followEmail",function(req,res){
+    User.findOne({
+        email: req.params.email
+    }).select('follows')
+    .exec(function (err,you){
+        if(err) throw err;
+        User.findOne({
+            email: req.params.followEmail
+        }).select("_id")
+        .exec(function(err,other){
+            if(err) throw err;
+            var index = you.follows.indexOf(other._id);
+            if(index >= 0){
+                res.json(true);
+            }else{
+                res.json(false);
+            }
+        });
+    });
+});
 
 //this lets you post a new recipe to the user of email given as parameter
-app.post("/api/recipe/add/:email",auth, function (req, res) {
+app.post("/api/recipe/add/:email",auth, function (req, res, next) {
     User.findOne({
         email: req.params.email
     }, function (err, user) {
@@ -294,11 +275,32 @@ app.post("/api/recipe/add/:email",auth, function (req, res) {
             if (user === null) {
                 res.status(500).send("User does not exist");
             } else {
+                var image = undefined;
+
+                if(req.body.picture){
+                    var image = new Image({
+                        filename: req.body.picture.filename,
+                        filetype: req.body.picture.filetype,
+                        value: req.body.picture.value
+                    });
+                }
+                
                 var recipe = new Recipe({
                     title: req.body.title,
-                    description: req.body.description
+                    description: req.body.description,
+                    picture: image
                 });
+                console.log(req.body);
                 user.posts.push(recipe);
+                if(req.body.picture){
+                    image.save(function(err){
+                        if(err){
+                            res.status(500).send("Picture could not be saved");
+                        }else{
+                            
+                        }
+                    });
+                }
                 recipe.save(function (err) {
                     if (err) {
                         res.status(500).send("Recipe could not be saved");
@@ -312,6 +314,8 @@ app.post("/api/recipe/add/:email",auth, function (req, res) {
                         });
                     }
                 });
+               
+                
             }
         }
     });
@@ -334,6 +338,10 @@ app.get("/api/recipe/getAll/:email",auth,function (req, res) {
                 path:'saves',
                 model:'User',
                 select:['email']
+            },
+            {
+                path:'picture',
+                model:'Image'
             }
         ]
            
@@ -417,6 +425,10 @@ app.get("/api/recipes/saved/:email",auth,function(req,res){
                 path:'saves',
                 model:'User',
                 select:['email']
+            },
+            {
+                path:'picture',
+                model:'Image'
             }
         ]
            
@@ -480,6 +492,10 @@ app.get('/api/feed/:email/:page',auth,function(req,res){
                     path:'saves',
                     model:'User',
                     select:['email']
+                },
+                {
+                    path:'picture',
+                    model:'Image'
                 }
             ]
         }

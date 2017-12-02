@@ -4,6 +4,10 @@
     <input type="text" class="form-control" [(ngModel)]="post.title" name="title" placeholder="title"/>
 
     <input type="text" class="form-control" [(ngModel)]="post.description" name="title" placeholder="description"/>
+
+    <input type="file" id="file" name="file" (change)="showPreview()" #fileInput/>
+    <img *ngIf="codedFile" class="preview" src="data:{{image.filetype}};base64,{{image.value}}" alt="{{image.filename}}" #preview/>
+
     
     <button class="btn btn-primary" type="submit">Voeg toe</button>
   </form>

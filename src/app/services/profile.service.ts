@@ -15,7 +15,7 @@ export class ProfileService {
 
   getMyPosts(email: string): Observable<Post[]>{
     return this.http.get(this._prefix + '/api/recipe/getAll/' + email,this.jwt()).map((response: Response) => response.json()
-  .map(item => new Post(item._id, item.title,item.description, item.createdAt, item.likes, item.saves)));
+  .map(item => new Post(item._id, item.title,item.description, item.createdAt, item.likes, item.saves, item.picture)));
   }
 
   getUserProfile(email: string): Observable<User>{
@@ -24,6 +24,15 @@ export class ProfileService {
 
   follow(email: string, followEmail: string){
     return this.http.post(this._prefix + '/api/user/'+ email + '/follow/'+ followEmail, null,this.jwt()).map((response: Response) => response.json());
+  }
+
+  unfollow(email: string, unfollowEmail: string){
+    return this.http.put(this._prefix + '/api/user/' + email + '/unfollow/'+ unfollowEmail,null,this.jwt()).map((response: Response) => response.json());
+  }
+
+  doesFollow(email: string, follow: string){
+    console.log("call");
+    return this.http.get(this._prefix + '/api/user/' + email + '/doesFollow/' + follow,this.jwt()).map((response: Response) => response.json());
   }
 
   findUser(value: string): Observable<String[]>{
