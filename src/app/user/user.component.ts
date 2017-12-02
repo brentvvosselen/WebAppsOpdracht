@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { User } from '../models/user';
 import { Post } from '../models/post';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +18,7 @@ export class UserComponent implements OnInit {
   private _posts: Post[];
   private _follows: boolean = false;
 
-  constructor(private profileService: ProfileService, private route: ActivatedRoute) {
+  constructor(private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
     this.route.params.subscribe(params => this._email = params.email)
     
     this.profileService.getUserProfile(this._email).subscribe(user => {
@@ -35,7 +36,7 @@ export class UserComponent implements OnInit {
 
   follow(){
     console.log("follow");
-    this.profileService.follow("brentvanvosselen@live.be",this.user.email).subscribe(result => console.log(result));
+    this.profileService.follow(this.authenticationService.user$.value,this.user.email).subscribe(result => console.log(result));
   }
 
   get email(): string{

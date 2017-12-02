@@ -12,9 +12,11 @@ export class FeedComponent implements OnInit {
 
   private _posts: Post[] = [];
   private _counter: number = 0;
+  private _user: string;
 
   constructor(private postService: PostService, private authenticationService: AuthenticationService) { 
-    this.postService.fillFeed("brentvanvosselen@live.be",this._counter).subscribe(posts => {
+    this._user = this.authenticationService.user$.value;
+    this.postService.fillFeed(this._user,this._counter).subscribe(posts => {
       posts.forEach(e => {
         this._posts.push(e);
       });
@@ -28,7 +30,7 @@ export class FeedComponent implements OnInit {
   }
   more(){
     this._counter++;
-    this.postService.fillFeed("brentvanvosselen@live.be",this._counter).subscribe(posts => {
+    this.postService.fillFeed(this._user,this._counter).subscribe(posts => {
       posts.forEach(e => {
         this._posts.push(e);
       });
