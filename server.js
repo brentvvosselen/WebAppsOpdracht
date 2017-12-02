@@ -249,7 +249,7 @@ app.get("/api/user/:email",auth, function(req,res,next){
 });
 
 //find users
-app.get("/api/user/find/:string",function(req,res){
+app.get("/api/user/find/:string",auth,function(req,res){
     User.find({
         email: {"$regex": req.params.string, "$options":"i"}
     }).select('email')
@@ -260,7 +260,7 @@ app.get("/api/user/find/:string",function(req,res){
 });
 
 //follow a user
-app.post("/api/user/:email/follow/:followEmail",function(req,res){
+app.post("/api/user/:email/follow/:followEmail",auth,function(req,res){
     User.findOne({
         email: req.params.email
     }).select('follows')
@@ -284,7 +284,7 @@ app.post("/api/user/:email/follow/:followEmail",function(req,res){
 })
 
 //this lets you post a new recipe to the user of email given as parameter
-app.post("/api/recipe/add/:email", function (req, res) {
+app.post("/api/recipe/add/:email",auth, function (req, res) {
     User.findOne({
         email: req.params.email
     }, function (err, user) {
@@ -318,7 +318,7 @@ app.post("/api/recipe/add/:email", function (req, res) {
 });
 
 //this gives you all the recipes from the current user
-app.get("/api/recipe/getAll/:email", function (req, res) {
+app.get("/api/recipe/getAll/:email",auth,function (req, res) {
     User.findOne({
         email: req.params.email
     }).populate({
@@ -349,7 +349,7 @@ app.get("/api/recipe/getAll/:email", function (req, res) {
 });
 
 //get one full recipe
-app.get("/api/recipe/get/:id",function(req,res){
+app.get("/api/recipe/get/:id",auth,function(req,res){
     Recipe.findOne({
         _id: req.params.id
     }).populate('likes',['email'])
@@ -363,7 +363,7 @@ app.get("/api/recipe/get/:id",function(req,res){
 });
 
 //save a recipe
-app.post("/api/recipe/save/:email", function (req, res) {;
+app.post("/api/recipe/save/:email", auth,function (req, res) {;
     console.log(req.body);
     User.findOne({
         email: req.params.email
@@ -401,7 +401,7 @@ app.post("/api/recipe/save/:email", function (req, res) {;
 );
 
 //get all the saved recipes of user
-app.get("/api/recipes/saved/:email",function(req,res){
+app.get("/api/recipes/saved/:email",auth,function(req,res){
     User.findOne({
         email: req.params.email
     }).populate({
@@ -432,7 +432,7 @@ app.get("/api/recipes/saved/:email",function(req,res){
 });
 
 //like a recipe
-app.put('/api/recipes/like/:email',function(req,res){
+app.put('/api/recipes/like/:email',auth,function(req,res){
     console.log(req.body);
     Recipe.findOne({
         _id: req.body.recipeid
@@ -461,7 +461,7 @@ app.put('/api/recipes/like/:email',function(req,res){
 });
 
 //feed
-app.get('/api/feed/:email/:page',function(req,res){
+app.get('/api/feed/:email/:page',auth,function(req,res){
     User.findOne({
         email: req.params.email
     }).select('follows').populate({
