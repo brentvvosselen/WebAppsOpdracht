@@ -61,6 +61,14 @@ export class PostViewComponent implements OnInit {
     
   }
 
+  unbulk(){
+    if(this._liked){
+      this.postService.unbulkPost(this._user,this.post.id).subscribe(res => console.log(res));
+      this._likes -= 1;
+      this._liked = false;
+    }
+  }
+
   get liked():boolean{
     return this._liked;
   }

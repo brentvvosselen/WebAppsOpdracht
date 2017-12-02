@@ -28,6 +28,10 @@ export class PostService {
     return this.http.put(this._prefix + "/api/recipes/like/"+ email, {recipeid: recipeid}, this.jwt()).map((response: Response) => response.json());
   }
 
+  unbulkPost(email: string, recipeid: string){
+    return this.http.put(this._prefix + "/api/recipes/unlike/" + email, {recipeid: recipeid}, this.jwt()).map((response: Response) => response.json());
+  }
+
   fillFeed(email: string, page: number): Observable<Post[]>{
     return this.http.get(this._prefix + "/api/feed/" + email + "/" + page, this.jwt()).map((response: Response)=> response.json().map(item => new Post(item._id, item.title, item.description, item.createdAt, item.likes, item.saves, item.picture)));
   }

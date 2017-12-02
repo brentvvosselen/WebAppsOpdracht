@@ -16,7 +16,8 @@ var userSchema = new Schema({
     posts: [{type: Schema.ObjectId, ref: 'Recipe'}],
     saves: [{type: Schema.ObjectId, ref: 'Recipe'}],
     follows: [{type: Schema.ObjectId, ref: 'User'}],
-    followers: {type: Number, required: true, default:0}
+    followers: {type: Number, required: true, default:0},
+    picture: {type: Schema.ObjectId, ref: 'Image'}
 });
 userSchema.plugin(mongoosePaginate);
 

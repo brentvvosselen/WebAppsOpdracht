@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { User } from '../models/user';
 import { Post } from '../models/post';
+import { Image } from '../models/image';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class UserComponent implements OnInit {
   private _user: User;
   private _posts: Post[];
   private _follows: boolean = false;
+  private _profileImage: Image
 
   constructor(private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
     this.route.params.subscribe(params => this._email = params.email)
@@ -25,6 +27,7 @@ export class UserComponent implements OnInit {
       this._user = user
       this._posts = this._user.posts.map(item => new Post(item["_id"],item.title,item.description,item.createdAt,item.likes,item.saves));
       console.log(this._user);
+      this._profileImage = this._user.picture;
       this.profileService.doesFollow(this.authenticationService.user$.value,this.user.email).subscribe(result => {
         this._follows = result;
       });
@@ -67,4 +70,8 @@ export class UserComponent implements OnInit {
     return this._follows;
   }
 
+  get profileImage(): Image{
+    return this._profileImage;
+  }
+  
 }

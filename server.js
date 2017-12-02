@@ -149,12 +149,64 @@ app.post("/api/authenticate", function (req, res) {
     });
 });
 
+//get profile picture
+app.get("/api/user/picture/:email",function(req,res,next){
+    User.findOne({
+        email: req.params.email
+    }).populate('picture')
+    .exec(function(err,user){
+        if(err){
+            next(err);
+        }
+        res.json(user.picture);
+    })
+})
+//change profile picture
+app.post("/api/user/picture/:email", function(req,res,next){
+    if(!req.body.filename || !req.body.filetype || !req.body.value){
+        throw next(err);
+    }else{
+        User.findOne({
+            email: req.params.email
+        },function(err,user){
+            if(err){
+                throw next(err);
+            }
+            if(user.picture){
+                Image.remove({_id: user.picture},function(err){
+                    if(err){
+                        throw next(err);
+                    }
+                });
+            }
+            var newImage = new Image({
+                filename: req.body.filename,
+                filetype: req.body.filetype,
+                value: req.body.value
+            });
+
+            user.picture = newImage;
+
+            newImage.save(function(err){
+                if(err) throw next(err);
+            });
+
+            user.save(function(err){
+                if(err){
+                    next(err);
+                }
+                res.json("succes");
+            });
+        });
+    }
+});
+
 //gets one user for profile view
 app.get("/api/user/:email",auth, function(req,res,next){
     User.findOne({
         email: req.params.email
-    }).select(['_id','email','posts','followers']).populate({
-        path:'posts',
+    }).select(['_id','email','posts','followers','picture']).populate(
+        [{path:'posts',
         model: 'Recipe',
         populate:[
             {
@@ -166,14 +218,15 @@ app.get("/api/user/:email",auth, function(req,res,next){
                 path:'saves',
                 model:'User',
                 select:['email']
-            },
-            {
-                path:'picture',
-                model:'Image'
             }
-        ]
+        ]},
+        {
+            path:'picture',
+            model:'Image'
+        }]
+
            
-    })
+    )
     .exec(function(err,user){
         if(err)throw err;
         console.log(user);
@@ -188,7 +241,7 @@ app.get("/api/user/find/:string",auth,function(req,res){
     }).select('email')
     .exec(function(err,users){
         if(err) res.status(500).send(err);
-        res.send(users);
+        res.send(users.splice(0,5));
     });
 });
 
@@ -471,6 +524,36 @@ app.put('/api/recipes/like/:email',auth,function(req,res){
         }
     });
 });
+
+//unlike a recipe
+app.put('/api/recipes/unlike/:email',function(req,res){
+    Recipe.findOne({
+        _id: req.body.recipeid
+    },function(err,recipe){
+        if( err || recipe === null){
+            res.status(500).send('Recipe could not be retrieved');
+        }else{
+            User.findOne({
+                email: req.params.email
+            },function(err,user){
+                if(err || user === null){
+                    res.status(500).send("User could not be retrieved");
+                }else{
+                    var userIndex = recipe.likes.indexOf(user._id);
+
+                    recipe.likes.splice(userIndex,1);
+
+                    recipe.save(function(err){
+                        if(err) throw err;
+                        res.json("unliked"); 
+                    });
+                   
+                }});
+                }
+            })
+            
+        }
+    );
 
 //feed
 app.get('/api/feed/:email/:page',auth,function(req,res){

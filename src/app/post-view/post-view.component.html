@@ -20,7 +20,7 @@
                         <li *ngIf="saved"><a>SAVED</a></li>
                         <li><a >COMMENT</a></li>
                         <li *ngIf="!liked"><a (click)="bulkit()"><span class="likes">{{likes}}</span> BULK IT</a></li>
-                        <li *ngIf="liked"><a><span class="likes">{{likes}}</span> YOU BULKED IT</a></li>
+                        <li *ngIf="liked"><a (click)="unbulk()"><span class="likes">{{likes}}</span> YOU BULKED IT</a></li>
                       </ul>
                     </div>
                 

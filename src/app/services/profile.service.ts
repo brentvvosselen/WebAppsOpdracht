@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 
 import { Post } from '../models/post';
 import { User } from '../models/user';
+import { Image } from '../models/image';
+
 @Injectable()
 export class ProfileService {
 
@@ -22,6 +24,10 @@ export class ProfileService {
     return this.http.get(this._prefix + '/api/user/' + email, this.jwt()).map((response: Response) => response.json());
   }
 
+  getProfilePicture(email: string): Observable<Image>{
+    return this.http.get(this._prefix + '/api/user/picture/' + email, this.jwt()).map((response: Response) => response.json());
+  }
+
   follow(email: string, followEmail: string){
     return this.http.post(this._prefix + '/api/user/'+ email + '/follow/'+ followEmail, null,this.jwt()).map((response: Response) => response.json());
   }
@@ -37,6 +43,10 @@ export class ProfileService {
 
   findUser(value: string): Observable<String[]>{
     return this.http.get(this._prefix + '/api/user/find/' + value,this.jwt()).map((response: Response) => response.json().map(user => user.email));
+  }
+
+  addPicture(email: string, picture: Image){
+    return this.http.post(this._prefix + '/api/user/picture/' + email, picture,this.jwt()).map((response: Response) => response.json());
   }
 
   private jwt() {
