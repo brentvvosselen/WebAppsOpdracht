@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-feed',
@@ -12,12 +13,14 @@ export class FeedComponent implements OnInit {
   private _posts: Post[] = [];
   private _counter: number = 0;
 
-  constructor(private postService: PostService) { 
+  constructor(private postService: PostService, private authenticationService: AuthenticationService) { 
     this.postService.fillFeed("brentvanvosselen@live.be",this._counter).subscribe(posts => {
       posts.forEach(e => {
         this._posts.push(e);
       });
     });
+
+    console.log(this.authenticationService.user$);
   }
 
   ngOnInit() {
