@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-body{
+/*body{
     background-color: beige;
     overflow-x: hidden;
 }
@@ -91,7 +91,7 @@ a{
     padding-right: 2em;
     margin-left: -1em;
     margin-right: -2em;
-    transform: rotate(-5deg);*/
+    transform: rotate(-5deg);*//*
 }
 
 .navbar-header .navbar-brand{
@@ -115,3 +115,4 @@ a{
     background-color:white;
     margin: .5em 0;
 }
+*/
