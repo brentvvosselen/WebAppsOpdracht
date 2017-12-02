@@ -1,3 +1,88 @@
-<p>
-  register works!
-</p>
+<h1 class="title">OOGAPPL.</h1>
+
+<div class="container">
+    <div class="row">
+      <div class="command">
+        <p class="command-content">Create a new account.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="container form-container">
+    
+  <div class="row">
+    <div class="form-title">
+      <h3 class="text-white">Persoonlijke info</h3>
+    </div>
+    </div>
+    <form class="registerForm" (ngSubmit)="register()" [formGroup]="registerForm">
+      <div class="card card-form">
+        
+        <div class="form-item">
+          <input id="email" class="form-control" type="email" placeholder="Email" formControlName="email" />
+          <div *ngIf="(registerForm.get('email').touched || registerForm.get('email').dirty) && registerForm.get('email').errors" class="alert alert-danger">
+            <div *ngIf="registerForm.get('email').errors.required">
+              Email is verplicht
+            </div>
+            <div *ngIf="registerForm.get('email').errors.minlength">
+              Moet minstens 3 lang zijn
+            </div>
+            <div *ngIf="registerForm.get('email').errors.pattern">
+              Geef een geldig email in
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+      <div class="form-title">
+        <h3 class="text-white">Beveiligingsinfo</h3>
+      </div>
+
+      <div class="card card-form">
+        <div class="form-item">
+          <input id="password" class="form-control" type="password" placeholder="Paswoord" formControlName="password" />
+
+          <div *ngIf="(registerForm.get('password').touched || registerForm.get('password').dirty) && registerForm.get('password').errors"
+            class="alert alert-danger">
+            <div *ngIf="registerForm.get('password').errors.required">
+              Password is verplicht
+            </div>
+            <div *ngIf="registerForm.get('email').errors.minlength">
+              Moet minstens 3 lang zijn
+            </div>
+          </div>
+        </div>
+        <div class="form-item">
+          <input id="passwordConfirm" class="form-control" type="password" placeholder="Herhaal Paswoord" formControlName="passwordConfirm" />
+
+          <div *ngIf="(registerForm.get('passwordConfirm').touched || registerForm.get('passwordConfirm').dirty) && registerForm.get('passwordConfirm').errors"
+            class="alert alert-danger">
+            <div *ngIf="registerForm.get('passwordConfirm').errors.required">
+              Herhaal Passwoord is verplicht
+            </div>
+            <div *ngIf="registerForm.get('passwordConfirm').errors.minlength">
+              Moet minstens 3 lang zijn
+            </div>
+            <div *ngIf="registerForm.get('passwordConfirm').errors.matchOther">
+              Paswoorden komen niet overeen
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-login">
+        <input type="submit"  value="registreer" name="signup_submit" [disabled]="!registerForm.valid">
+      </div>
+
+      <div class="center mt-1">
+        <a [routerLink]="['/login']" class="btn-else">Cancel</a>
+      </div>
+      
+
+    </form>
+  </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
+import { Http, Headers, Response, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
@@ -9,6 +9,7 @@ import { User } from '../models/user';
 export class ProfileService {
 
   private _prefix: string = "http://localhost:3000";
+  private auth;
 
   constructor(private http: Http) { }
 
@@ -18,7 +19,7 @@ export class ProfileService {
   }
 
   getUserProfile(email: string): Observable<User>{
-    return this.http.get(this._prefix + '/api/user/' + email).map((response: Response) => response.json());
+    return this.http.get(this._prefix + '/api/user/' + email, this.jwt()).map((response: Response) => response.json());
   }
 
   follow(email: string, followEmail: string){
@@ -28,4 +29,13 @@ export class ProfileService {
   findUser(value: string): Observable<String[]>{
     return this.http.get(this._prefix + '/api/user/find/' + value).map((response: Response) => response.json().map(user => user.email));
   }
+
+  private jwt() {
+    // create authorization header with jwt token
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.token) {
+        let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
+        return new RequestOptions({ headers: headers });
+    }
+}
 }

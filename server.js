@@ -94,6 +94,18 @@ app.post('/api/login',function(req, res, next){
             return res.status(401).json(info);
         }
     })(req, res, next);
+});
+
+app.post('/api/checkusername',function(req,res,next){
+    User.find({
+        email: req.body.email
+    },function(err,user){
+        if(user.length){
+            res.json({'email':'alreadyexists'});
+        }else{
+            res.json({'email':'ok'});
+        }
+    })
 })
 
 
@@ -209,7 +221,7 @@ app.post("/api/authenticate", function (req, res) {
 });
 
 //gets one user for profile view
-app.get("/api/user/:email",function(req,res){
+app.get("/api/user/:email",auth, function(req,res,next){
     User.findOne({
         email: req.params.email
     }).select(['_id','email','posts','followers']).populate({
@@ -496,8 +508,8 @@ app.get('/api/feed/:email/:page',function(req,res){
     });
 });
 
-app.use(express.static(__dirname + '/dist'));
+/*app.use(express.static(__dirname + '/dist'));
 app.all('*',(req,res) => {
     const indexFile = `${__dirname}/dist/index.html`;
     res.status(200).sendFile(indexFile);
-})
+})*/

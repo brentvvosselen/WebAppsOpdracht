@@ -18,6 +18,7 @@ import { SavedPostsComponent } from './saved-posts/saved-posts.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthenticationService } from './authentication.service';
 
 @NgModule({
   declarations: [
@@ -44,12 +45,14 @@ import { RegisterComponent } from './register/register.component';
       { path: "profile/:email", component:UserComponent},
       { path: "new", component:NewPostComponent}, 
       { path: "saves", component:SavedPostsComponent},
+      { path: "register", component:RegisterComponent},
+      { path: "login", component:LoginComponent},
       { path: "", component:FeedComponent},
       { path: "**", component:NotFoundComponent}
         
     ])
   ],
-  providers: [ProfileService, PostService],
+  providers: [ProfileService, PostService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
