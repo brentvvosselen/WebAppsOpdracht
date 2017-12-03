@@ -10,8 +10,9 @@ export class Post {
     saves: User[];
     createdAt: Date;
     picture: Image;
+    poster: User;
 
-    constructor(id?: string,title?: string, description?:string, createdAt?:Date, likes?: User[], saves?: User[], picture?: Image){
+    constructor(id?: string,title?: string, description?:string, createdAt?:Date, likes?: User[], saves?: User[], picture?: Image, poster?: User){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -19,5 +20,6 @@ export class Post {
         this.likes = likes;
         this.saves = saves;
         this.picture = picture;
+        this.poster = poster;
     } 
 }

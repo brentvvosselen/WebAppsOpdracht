@@ -205,7 +205,7 @@ app.post("/api/user/picture/:email", function(req,res,next){
 app.get("/api/user/:email",auth, function(req,res,next){
     User.findOne({
         email: req.params.email
-    }).select(['_id','email','posts','followers','picture']).populate(
+    }).select(['_id','email','posts','followers','picture','poster']).populate(
         [{path:'posts',
         model: 'Recipe',
         populate:[
@@ -222,6 +222,14 @@ app.get("/api/user/:email",auth, function(req,res,next){
             {
                 path:'picture',
                 model:'Image'
+            },
+            {
+                path:'poster',
+                model:'User',
+                populate:{
+                    path:'picture',
+                    model:'Image'
+                }
             }
         ]},
         {
@@ -240,13 +248,23 @@ app.get("/api/user/:email",auth, function(req,res,next){
 
 //find users
 app.get("/api/user/find/:string",auth,function(req,res){
-    User.find({
-        email: {"$regex": req.params.string, "$options":"i"}
-    }).select('email')
-    .exec(function(err,users){
-        if(err) res.status(500).send(err);
-        res.send(users.splice(0,5));
-    });
+   
+    if(req.params.string === "+nouser+"){
+        console.log("empty");
+        res.json([]);
+        
+    }else{
+        User.find({
+            email: {"$regex": req.params.string, "$options":"i"}
+        }).select('email')
+        .exec(function(err,users){
+            if(err) res.status(500).send(err);
+            
+                res.send(users.splice(0,5));
+            
+        });
+    }
+   
 });
 
 //follow a user
@@ -345,7 +363,8 @@ app.post("/api/recipe/add/:email",auth, function (req, res, next) {
                 var recipe = new Recipe({
                     title: req.body.title,
                     description: req.body.description,
-                    picture: image
+                    picture: image,
+                    poster: user
                 });
                 console.log(req.body);
                 user.posts.push(recipe);
@@ -399,6 +418,14 @@ app.get("/api/recipe/getAll/:email",auth,function (req, res) {
             {
                 path:'picture',
                 model:'Image'
+            },
+            {
+                path:'poster',
+                model:'User',
+                populate:{
+                    path:'picture',
+                    model:'Image'
+                }
             }
         ]
            
@@ -486,6 +513,14 @@ app.get("/api/recipes/saved/:email",auth,function(req,res){
             {
                 path:'picture',
                 model:'Image'
+            },
+            {
+                path:'poster',
+                model:'User',
+                populate:{
+                    path:'picture',
+                    model:'Image'
+                }
             }
         ]
            
@@ -583,6 +618,14 @@ app.get('/api/feed/:email/:page',auth,function(req,res){
                 {
                     path:'picture',
                     model:'Image'
+                },
+                {
+                    path:'poster',
+                    model:'User',
+                    populate:{
+                        path:'picture',
+                        model:'Image'
+                    }
                 }
             ]
         }

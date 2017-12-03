@@ -45,8 +45,8 @@ import { MaterialModule } from './material.module';
     MaterialModule,
     RouterModule.forRoot([
       { path: "feed", component:FeedComponent},
-      { path: "profile", component:ProfileComponent},
       { path: "profile/:email", component:UserComponent},
+      { path: "profile", component:ProfileComponent},
       { path: "new", component:NewPostComponent}, 
       { path: "saves", component:SavedPostsComponent},
       { path: "register", component:RegisterComponent},

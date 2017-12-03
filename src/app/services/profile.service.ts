@@ -17,7 +17,7 @@ export class ProfileService {
 
   getMyPosts(email: string): Observable<Post[]>{
     return this.http.get(this._prefix + '/api/recipe/getAll/' + email,this.jwt()).map((response: Response) => response.json()
-  .map(item => new Post(item._id, item.title,item.description, item.createdAt, item.likes, item.saves, item.picture)));
+  .map(item => new Post(item._id, item.title,item.description, item.createdAt, item.likes, item.saves, item.picture, item.poster)));
   }
 
   getUserProfile(email: string): Observable<User>{
@@ -42,6 +42,9 @@ export class ProfileService {
   }
 
   findUser(value: string): Observable<String[]>{
+    if(value === ''){
+      value = '+nouser+';
+    }
     return this.http.get(this._prefix + '/api/user/find/' + value,this.jwt()).map((response: Response) => response.json().map(user => user.email));
   }
 

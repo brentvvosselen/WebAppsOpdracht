@@ -28,7 +28,7 @@
             <div *ngIf="registerForm.get('password').errors.required">
               Password is verplicht
             </div>
-            <div *ngIf="registerForm.get('email').errors.minlength">
+            <div *ngIf="registerForm.get('password').errors.minlength">
               Moet minstens 3 lang zijn
             </div>
           </div>

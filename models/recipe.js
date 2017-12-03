@@ -14,7 +14,8 @@ var recipeSchema = new Schema({
     },
     likes: [{type: Schema.ObjectId, ref:"User"}],
     saves: [{type: Schema.ObjectId, ref:"User"}],
-    picture: {type: Schema.ObjectId, ref: 'Image'}
+    picture: {type: Schema.ObjectId, ref:"Image"},
+    poster: {type: Schema.ObjectId, ref:"User"}
 },
 {timestamps: true});
 

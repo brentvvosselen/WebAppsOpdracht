@@ -41,6 +41,7 @@ export class PostViewComponent implements OnInit {
       }
     }
 
+    
   }
 
   save(){

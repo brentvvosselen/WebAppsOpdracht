@@ -30,7 +30,8 @@
     background-color: rgba(177, 177, 177, 0.7);
   }
   
-  .container:hover .overlay {
+  
+  .overlay-container .container:hover .overlay {
     opacity: 1;
   
   }

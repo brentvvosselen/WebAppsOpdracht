@@ -13,3 +13,7 @@
 .image{
     border-radius:50%;
 }
+
+mat-card-title a{
+    text-decoration: none;
+}

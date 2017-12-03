@@ -36,10 +36,11 @@
     <mat-card class="example-card">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image">
-              <img class="img img-rounded img-responsive image" src="../../assets/noPicture.jpg" />
+              <img *ngIf="!post.poster.picture" class="img img-rounded img-responsive image" src="../../assets/noPicture.jpg"/>
+              <img *ngIf="post.poster.picture" class="img img-rounded img-responsive image" src="data:{{post.poster.picture.filetype}};base64,{{post.poster.picture.value}}" alt="{{post.poster.picture.filename}}"/>
           </div>
-          <mat-card-title>Shiba Inu</mat-card-title>
-          <mat-card-subtitle>{{post.createdAt| date : "HH:mm, dd MMMM yyyy"}}</mat-card-subtitle>
+          <mat-card-title class="mb-1"><a routerLink="/profile/{{post.poster.email}}" routerLinkActive="active">{{post.poster.email}}</a></mat-card-title>
+          <mat-card-subtitle>{{post.createdAt| date : "dd MMMM yyyy, HH:mm"}}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image *ngIf="post?.picture" src="data:{{post.picture.filetype}};base64,{{post.picture.value}}" alt="{{post.picture.filename}}"/>
         <mat-card-content>
