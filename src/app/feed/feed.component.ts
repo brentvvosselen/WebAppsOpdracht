@@ -13,10 +13,14 @@ export class FeedComponent implements OnInit {
   private _posts: Post[] = [];
   private _counter: number = 0;
   private _user: string;
+  private _hasMorePosts = true;
 
   constructor(private postService: PostService, private authenticationService: AuthenticationService) { 
     this._user = this.authenticationService.user$.value;
     this.postService.fillFeed(this._user,this._counter).subscribe(posts => {
+      if (posts.length < 3){
+        this._hasMorePosts = false;
+      }
       posts.forEach(e => {
         this._posts.push(e);
       });
@@ -31,6 +35,9 @@ export class FeedComponent implements OnInit {
   more(){
     this._counter++;
     this.postService.fillFeed(this._user,this._counter).subscribe(posts => {
+      if (posts.length < 3){
+        this._hasMorePosts = false;
+      }
       posts.forEach(e => {
         this._posts.push(e);
       });
@@ -44,5 +51,8 @@ export class FeedComponent implements OnInit {
   get counter(): number{
     return this._counter;
   }
-
+  
+  get hasMorePosts(): boolean{
+    return this._hasMorePosts;
+  }
 }

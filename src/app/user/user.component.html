@@ -1,7 +1,9 @@
 <div class="container-fluid">
-  <h1>This is the profile of {{user.email}}<a *ngIf="!follows" class="btn btn-default" (click)="follow()">volg</a> <a *ngIf="follows" class="btn btn-default" (click)="unfollow()">Ontvolg</a></h1>
+  <h1>This is the profile of {{user.email}}
+    <a *ngIf="!follows" class="btn btn-default" (click)="follow()">volg</a> 
+    <a *ngIf="follows" class="btn btn-default" (click)="unfollow()">Ontvolg</a></h1>
   <img *ngIf="!profileImage" class="img img-responsive image" src="../../assets/noPicture.jpg"/>
-  <img *ngIf="profileImage" src="data:{{profileImage.filetype}};base64,{{profileImage.value}}" alt="{{profileImage.filename}}"/>
+  <img *ngIf="profileImage" class="image" src="data:{{profileImage.filetype}};base64,{{profileImage.value}}" alt="{{profileImage.filename}}"/>
 
   
   <h2 *ngIf="user.posts.length === 0">The user has no posts.</h2>

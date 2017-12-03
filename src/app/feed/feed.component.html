@@ -1,9 +1,14 @@
-<div class="container-fluid">
+<div class="container">
     <h1>Welcome to your feed.</h1>
-    <a routerLink="/new" routerLinkActive="active">Post een nieuw recept.</a>
-{{posts.length}}
+    <button class="btn-right" mat-button routerLink="/new" routerLinkActive="active">Post een nieuw recept.</button>
     <app-post-view *ngFor="let post of posts" [post]="post"></app-post-view>
    
+    <div class="row">
+            <div>
+                    <button *ngIf="hasMorePosts" class="btn-right" mat-raised-button color="accent" (click)="more()">MEER POSTS</button>
+            </div>
+    </div>
+    
+    
 </div>
 
-<button (click)="more()">MEER POSTS</button>

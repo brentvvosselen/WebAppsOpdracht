@@ -1,8 +1,8 @@
 
-    <div class="card col-xs-12 col-md-10 col-md-offset-1">
+  <!-- <div class="card col-xs-12 col-md-10 col-md-offset-1">
       <div class="card-content">
           <div class="img-left">
-            <!--<img *ngIf="!currentUser?.picture" class="img img-responsive image" src="../../assets/noPicture.jpg"/>-->
+            <img *ngIf="!currentUser?.picture" class="img img-responsive image" src="../../assets/noPicture.jpg"/>
             <img *ngIf="post?.picture" src="data:{{post.picture.filetype}};base64,{{post.picture.value}}" alt="{{post.picture.filename}}"/>
             </div>
             <div class="post-content">
@@ -29,6 +29,31 @@
             
       
       
-    </div>
+          </div>-->
     
 
+
+    <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image">
+              <img class="img img-rounded img-responsive image" src="../../assets/noPicture.jpg" />
+          </div>
+          <mat-card-title>Shiba Inu</mat-card-title>
+          <mat-card-subtitle>{{post.createdAt| date : "HH:mm, dd MMMM yyyy"}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image *ngIf="post?.picture" src="data:{{post.picture.filetype}};base64,{{post.picture.value}}" alt="{{post.picture.filename}}"/>
+        <mat-card-content>
+            <mat-card-title>{{post.title}}</mat-card-title>
+          <p>
+            {{post.description}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+           <!-- <li *ngIf="!liked"><a (click)="bulkit()"><span class="likes">{{likes}}</span> BULK IT</a></li>
+            <li *ngIf="liked"><a (click)="unbulk()"><span class="likes">{{likes}}</span> YOU BULKED IT</a></li>-->
+          <button *ngIf="!liked" mat-button (click)="bulkit()"><span class="likes">{{likes}}</span>BULK IT</button>
+          <button *ngIf="liked" mat-button (click)="unbulk()"><span class="likes">{{likes}}</span>YOU BULKED IT</button>
+          <button *ngIf="!saved" mat-button (click)="save()">SAVE</button>
+          <button *ngIf="saved" mat-button disabled>SAVED</button>
+        </mat-card-actions>
+      </mat-card>

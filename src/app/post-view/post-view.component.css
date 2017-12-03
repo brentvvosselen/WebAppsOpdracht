@@ -1,5 +1,15 @@
-/*.likes{
+.likes{
     background-color: #B0483D;
     color:white;
     padding: .2em .5em;
-}*/
+    vertical-align: baseline !important;
+    border-radius: 1.4em;
+    margin-right: .5em;
+}
+.example-card{
+    max-width:600px;
+    margin:0 auto;
+}
+.image{
+    border-radius:50%;
+}

@@ -1,23 +1,8 @@
-<h1 class="title">OOGAPPL.</h1>
 
-<div class="container">
-    <div class="row">
-      <div class="command">
-        <p class="command-content">Create a new account.</p>
-      </div>
-    </div>
-  </div>
 
 <div class="container form-container">
-    
-  <div class="row">
-    <div class="form-title">
-      <h3 class="text-white">Persoonlijke info</h3>
-    </div>
-    </div>
+    <h1>Create an account for Bulkr.</h1>
     <form class="registerForm" (ngSubmit)="register()" [formGroup]="registerForm">
-      <div class="card card-form">
-        
         <div class="form-item">
           <input id="email" class="form-control" type="email" placeholder="Email" formControlName="email" />
           <div *ngIf="(registerForm.get('email').touched || registerForm.get('email').dirty) && registerForm.get('email').errors" class="alert alert-danger">
@@ -32,18 +17,9 @@
             </div>
           </div>
         </div>
-      </div>
 
 
 
-
-
-
-      <div class="form-title">
-        <h3 class="text-white">Beveiligingsinfo</h3>
-      </div>
-
-      <div class="card card-form">
         <div class="form-item">
           <input id="password" class="form-control" type="password" placeholder="Paswoord" formControlName="password" />
 
@@ -73,10 +49,10 @@
             </div>
           </div>
         </div>
-      </div>
+
 
       <div class="button-login">
-        <input type="submit"  value="registreer" name="signup_submit" [disabled]="!registerForm.valid">
+        <button mat-button type="submit"  name="signup_submit" [disabled]="!registerForm.valid">Registreer</button>
       </div>
 
       <div class="center mt-1">

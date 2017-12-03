@@ -218,6 +218,10 @@ app.get("/api/user/:email",auth, function(req,res,next){
                 path:'saves',
                 model:'User',
                 select:['email']
+            },
+            {
+                path:'picture',
+                model:'Image'
             }
         ]},
         {
