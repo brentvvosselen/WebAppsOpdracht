@@ -654,8 +654,8 @@ app.get('/api/feed/:email/:page',auth,function(req,res){
     });
 });
 
-/*app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/dist'));
 app.all('*',(req,res) => {
     const indexFile = `${__dirname}/dist/index.html`;
     res.status(200).sendFile(indexFile);
-})*/
+})
