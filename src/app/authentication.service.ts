@@ -8,6 +8,8 @@ export class AuthenticationService {
   private _url = '/api/users';
   private _user$: BehaviorSubject<string>;
 
+  private _prefix: string = "";
+
 
   constructor(private http: Http) { 
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -20,7 +22,7 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string): Observable<boolean>{
-    return this.http.post(`http://localhost:3000/api/login`,
+    return this.http.post(this._prefix+ `/api/login`,
     {email: email, password: password})
     .map(res => res.json()).map(res => {
       const token = res.token;
@@ -36,7 +38,7 @@ export class AuthenticationService {
   }
 
   register(email: string, password: string): Observable<boolean>{
-    return this.http.post(`http://localhost:3000/api/register`,{
+    return this.http.post(this._prefix+ `/api/register`,{
       email: email, password: password
     }).map(res => res.json()).map(res => {
       const token = res.token;
@@ -58,7 +60,7 @@ export class AuthenticationService {
   }
   
   checkUserNameAvailability(email: string): Observable<boolean> {
-    return this.http.post(`http://localhost:3000/api/checkusername`, { email: email }).map(res => res.json())
+    return this.http.post(this._prefix+ `/api/checkusername`, { email: email }).map(res => res.json())
     .map(item => {
       if (item.email === 'alreadyexists') {
         return false;
