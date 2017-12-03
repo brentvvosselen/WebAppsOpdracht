@@ -23,14 +23,16 @@
         <li class="li-search">
           <form class="navbar-form" role="search">
             <div class="input-group">
-            <input type="text" class="form-control search" placeholder="Search" (keyup)="search(value)" #value>
+            <input id="searchval" type="text" class="form-control search" placeholder="Search" (keyup)="search(input)" #input>
             </div>
           </form>
 
           <ul class="search-results">
             <div *ngFor="let user of foundUsers">
               <li>
-                <a routerLink="/profile/{{user}}" routerLinkActive="active">{{user}}</a>
+                  <img *ngIf="!user.picture" class="img img-responsive pull-left" src="../../assets/noPicture.jpg" alt="no pic"/>
+                  <img *ngIf="user.picture" class="img img-responsive pull-left" src="data:{{user.picture.filetype}};base64,{{user.picture.value}}" alt="{{user.picture.filename}}" />
+                <a (click)="emptysearch(input)" routerLink="/profile/{{user.email}}" routerLinkActive="active">{{user.email}}</a>
               </li>
             </div>
           </ul>

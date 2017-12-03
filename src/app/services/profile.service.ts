@@ -41,11 +41,11 @@ export class ProfileService {
     return this.http.get(this._prefix + '/api/user/' + email + '/doesFollow/' + follow,this.jwt()).map((response: Response) => response.json());
   }
 
-  findUser(value: string): Observable<String[]>{
+  findUser(value: string): Observable<User[]>{
     if(value === ''){
       value = '+nouser+';
     }
-    return this.http.get(this._prefix + '/api/user/find/' + value,this.jwt()).map((response: Response) => response.json().map(user => user.email));
+    return this.http.get(this._prefix + '/api/user/find/' + value,this.jwt()).map((response: Response) => response.json().map(user => new User(undefined,user.email,undefined,undefined,user.picture)));
   }
 
   addPicture(email: string, picture: Image){

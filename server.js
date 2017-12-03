@@ -256,7 +256,7 @@ app.get("/api/user/find/:string",auth,function(req,res){
     }else{
         User.find({
             email: {"$regex": req.params.string, "$options":"i"}
-        }).select('email')
+        }).select(['email','picture']).populate('picture')
         .exec(function(err,users){
             if(err) res.status(500).send(err);
             

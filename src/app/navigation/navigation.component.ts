@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
 import { AuthenticationService } from '../authentication.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-navigation',
@@ -10,7 +11,7 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class NavigationComponent implements OnInit {
 
-  private _foundUsers: String[];
+  private _foundUsers: User[];
   private _user: String;
 
   constructor(private router: Router, private profileService: ProfileService, private authenticationService: AuthenticationService) { }
@@ -26,10 +27,11 @@ export class NavigationComponent implements OnInit {
     
     this.profileService.findUser(string.value).subscribe(e => {
        this._foundUsers = e;
+       console.log(e);
     });
   }
 
-  get foundUsers(): String[]{
+  get foundUsers(): User[]{
     return this._foundUsers;
   }
 
@@ -40,6 +42,11 @@ export class NavigationComponent implements OnInit {
   logout(){
     this.authenticationService.logout();
     this.router.navigateByUrl("/login");
+  }
+
+  emptysearch(input: HTMLInputElement){
+    input.value="";
+    this.search(input);
   }
 
 }
