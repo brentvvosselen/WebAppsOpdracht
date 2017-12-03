@@ -32,8 +32,8 @@ mongoose.connect(config.database);
 app.set('superSecret', config.secret);
 
 //use body parser to get info from POST and URL parameters
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '5mb'}));
 
 // Resolves the Access-Control-Allow-Origin error in the console
 app.use(function(req, res, next) {
@@ -648,7 +648,7 @@ app.get('/api/feed/:email/:page',auth,function(req,res){
             return a.createdAt - b.createdAt;
         });
 
-        posts = posts.slice(index * 3, index*3 + 3);
+        posts = posts.slice(index * 5, index*5 + 5);
         console.log(posts);
         res.json(posts);
     });

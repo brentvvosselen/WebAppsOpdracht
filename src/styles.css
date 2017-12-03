@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 app-post-view{
     margin:2em;
@@ -10,6 +10,18 @@ body{
 }
 .mb-1{
     margin-bottom:1rem !important;
+}
+
+.mt-2{
+    margin-top: 2em;
+}
+
+.bg-red{
+    background-color: #B0483D;
+}
+
+.mat-fab.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary{
+    background-color: #2D3B55;
 }
 /*body{
     background-color: beige;

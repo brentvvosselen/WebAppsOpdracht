@@ -26,8 +26,14 @@ export class RegisterComponent implements OnInit {
         password: ['', [Validators.required, Validators.minLength(3)]],
         passwordConfirm: ['', [Validators.required, Validators.minLength(3), matchOtherValidator('password')]],
       });
+
+    //background
+    document.querySelector('body').classList.add('bg-red');
   }
 
+  ngOnDestroy(): void{
+    document.querySelector('body').classList.remove('bg-red');
+  }
 
   serverSideValidateUsername(): ValidatorFn {
     return (control: AbstractControl): 

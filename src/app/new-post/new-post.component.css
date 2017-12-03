@@ -1,0 +1,12 @@
+.post-container{    
+    border: 1px solid lightgray;
+    border-radius: 1rem;
+    padding: 2em;
+}
+
+textarea{
+    resize: none;
+}
+button{
+    margin-top:2em;
+}
