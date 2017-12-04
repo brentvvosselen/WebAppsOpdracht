@@ -9,8 +9,6 @@ var config = require('./config');
 var jwt = require('express-jwt')
 let auth = jwt({secret:process.env.BULKR_SECRET, userProperty: 'payload'});
 
-
-
 let passport = require('passport');
 
 require('./passport');
@@ -45,7 +43,7 @@ app.use(function(req, res, next) {
 
 //passport
 app.use(passport.initialize());
-  
+
 app.listen(port, function () {
     console.log('SERVER RUNNING ON ' + port);
 });
@@ -56,13 +54,9 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({ "error": message });
 }
 
-// app.get('/', function (request, response) {
-//     response.send("Hello world");
-// });
-
-app.get("/api", function (request, response) {
-    response.send({ name: "Brent", age: 20 });
-});
+app.get('/api/test',function(req,res,next){
+    res.send('works');
+})
 
 //register
 app.post('/api/register', function(req, res, next){
@@ -101,28 +95,22 @@ app.post('/api/checkusername',function(req,res,next){
     User.find({
         email: req.body.email
     },function(err,user){
+        if (err) { return next(err); }
         if(user.length){
             res.json({'email':'alreadyexists'});
         }else{
             res.json({'email':'ok'});
         }
     })
-})
-
-app.get("/api/users", auth, function (req, res) {
-    User.find({}, function (err, users) {
-        res.json(users);
-    });
 });
 
-
 //authenticate a user
-app.post("/api/authenticate", function (req, res) {
+app.post("/api/authenticate", function (req, res, next) {
     //find user
     User.findOne({
         name: req.body.name
     }, function (err, user) {
-        if (err) throw err;
+        if (err) { return next(err); }
         if (!user) {
             res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
@@ -155,28 +143,22 @@ app.get("/api/user/picture/:email",function(req,res,next){
         email: req.params.email
     }).populate('picture')
     .exec(function(err,user){
-        if(err){
-            next(err);
-        }
+        if (err) { return next(err); }
         res.json(user.picture);
     })
 })
 //change profile picture
 app.post("/api/user/picture/:email", function(req,res,next){
     if(!req.body.filename || !req.body.filetype || !req.body.value){
-        throw next(err);
+        res.status(400).json({message: 'No picture'});
     }else{
         User.findOne({
             email: req.params.email
         },function(err,user){
-            if(err){
-                throw next(err);
-            }
+            if (err) { return next(err); }
             if(user.picture){
                 Image.remove({_id: user.picture},function(err){
-                    if(err){
-                        throw next(err);
-                    }
+                    if (err) { return next(err); }
                 });
             }
             var newImage = new Image({
@@ -188,13 +170,11 @@ app.post("/api/user/picture/:email", function(req,res,next){
             user.picture = newImage;
 
             newImage.save(function(err){
-                if(err) throw next(err);
+                if (err) { return next(err); }
             });
 
             user.save(function(err){
-                if(err){
-                    next(err);
-                }
+                if (err) { return next(err); }
                 res.json("succes");
             });
         });
@@ -240,14 +220,14 @@ app.get("/api/user/:email",auth, function(req,res,next){
            
     )
     .exec(function(err,user){
-        if(err)throw err;
+        if (err) { return next(err); }
         console.log(user);
         res.json(user);
     })
 });
 
 //find users
-app.get("/api/user/find/:string",auth,function(req,res){
+app.get("/api/user/find/:string",auth,function(req,res, next){
    
     if(req.params.string === "+nouser+"){
         console.log("empty");
@@ -258,9 +238,9 @@ app.get("/api/user/find/:string",auth,function(req,res){
             email: {"$regex": req.params.string, "$options":"i"}
         }).select(['email','picture']).populate('picture')
         .exec(function(err,users){
-            if(err) res.status(500).send(err);
+            if (err) { return next(err); }
             
-                res.send(users.splice(0,5));
+            res.send(users.splice(0,5));
             
         });
     }
@@ -268,22 +248,22 @@ app.get("/api/user/find/:string",auth,function(req,res){
 });
 
 //follow a user
-app.post("/api/user/:email/follow/:followEmail",auth,function(req,res){
+app.post("/api/user/:email/follow/:followEmail",auth,function(req,res, next){
     User.findOne({
         email: req.params.email
     }).select('follows')
     .exec(function(err,you){
-        if(err)throw err;
+        if (err) { return next(err); }
         User.findOne({
             email: req.params.followEmail
         },function(err,other){
-            if(err)throw err;
+            if (err) { return next(err); }
             you.follows.push(other);
             other.followers += 1;
             you.save(function(err){
-                if(err)throw err;
+                if (err) { return next(err); }
                 other.save(function(err){
-                    if(err)throw err;
+                    if (err) { return next(err); }
                     res.json("Followed " + other.email);
                 });
             });
@@ -292,25 +272,25 @@ app.post("/api/user/:email/follow/:followEmail",auth,function(req,res){
 });
 
 //unfollow a user
-app.put("/api/user/:email/unfollow/:unfollowEmail",function(req,res){
+app.put("/api/user/:email/unfollow/:unfollowEmail",function(req,res, next){
     User.findOne({
         email: req.params.email
     }).select('follows')
     .exec(function(err,you){
-        if(err) throw err;
+        if (err) { return next(err); }
         User.findOne({
             email: req.params.unfollowEmail
         }).select('followers')
         .exec(function(err, other){
-            if(err) throw err;
+            if (err) { return next(err); }
             other.followers -= 1;
             var index = you.follows.indexOf(other._id);
             you.follows.splice(index,1);
             you.save(function(err){
-                if(err)throw err;
+                if (err) { return next(err); }
             });
             other.save(function(err){
-                if(err) throw err;
+                if (err) { return next(err); }
             });
             res.json("succes");
         })
@@ -318,17 +298,17 @@ app.put("/api/user/:email/unfollow/:unfollowEmail",function(req,res){
 });
 
 //does follow user
-app.get("/api/user/:email/doesFollow/:followEmail",function(req,res){
+app.get("/api/user/:email/doesFollow/:followEmail",function(req,res, next){
     User.findOne({
         email: req.params.email
     }).select('follows')
     .exec(function (err,you){
-        if(err) throw err;
+        if (err) { return next(err); }
         User.findOne({
             email: req.params.followEmail
         }).select("_id")
         .exec(function(err,other){
-            if(err) throw err;
+            if (err) { return next(err); }
             var index = you.follows.indexOf(other._id);
             if(index >= 0){
                 res.json(true);
@@ -344,8 +324,7 @@ app.post("/api/recipe/add/:email",auth, function (req, res, next) {
     User.findOne({
         email: req.params.email
     }, function (err, user) {
-        if (err) {
-            res.status(500).send("Could not retrieve the user")
+        if (err) { return next(err); 
         } else {
             if (user === null) {
                 res.status(500).send("User does not exist");
@@ -370,20 +349,14 @@ app.post("/api/recipe/add/:email",auth, function (req, res, next) {
                 user.posts.push(recipe);
                 if(req.body.picture){
                     image.save(function(err){
-                        if(err){
-                            res.status(500).send("Picture could not be saved");
-                        }else{
-                            
-                        }
+                        if (err) { return next(err); }
                     });
                 }
                 recipe.save(function (err) {
-                    if (err) {
-                        res.status(500).send("Recipe could not be saved");
+                    if (err) { return next(err); 
                     } else {
                         user.save(function (err) {
-                            if (err) {
-                                res.status(500).send("Recipe could not be added to the user");
+                            if (err) { return next(err);
                             } else {
                                 res.json("Succes");
                             }
@@ -398,7 +371,7 @@ app.post("/api/recipe/add/:email",auth, function (req, res, next) {
 });
 
 //this gives you all the recipes from the current user
-app.get("/api/recipe/getAll/:email",auth,function (req, res) {
+app.get("/api/recipe/getAll/:email",auth,function (req, res, next) {
     User.findOne({
         email: req.params.email
     }).populate({
@@ -434,14 +407,13 @@ app.get("/api/recipe/getAll/:email",auth,function (req, res) {
             if (err || user === null) {
                 res.status(500).send("User could not be retrieved");
             } else {
-                console.log(user.posts);
                 res.json(user.posts);
             }
         });
 });
 
 //get one full recipe
-app.get("/api/recipe/get/:id",auth,function(req,res){
+app.get("/api/recipe/get/:id",auth,function(req,res, next){
     Recipe.findOne({
         _id: req.params.id
     }).populate('likes',['email'])
@@ -455,7 +427,7 @@ app.get("/api/recipe/get/:id",auth,function(req,res){
 });
 
 //save a recipe
-app.post("/api/recipe/save/:email", auth,function (req, res) {;
+app.post("/api/recipe/save/:email", auth,function (req, res, next) {;
     console.log(req.body);
     User.findOne({
         email: req.params.email
@@ -472,12 +444,10 @@ app.post("/api/recipe/save/:email", auth,function (req, res) {;
                     recipe.saves.push(user);
                     user.saves.push(recipe);
                     user.save(function (err) {
-                        if (err) {
-                            res.status(500).send("Recipe could not be saved");
+                        if (err) { return next(err); 
                         } else {
                             recipe.save(function (err){
-                                if(err){
-                                    res.status(500).send("Recipe could not be saved");
+                                if (err) { return next(err); 
                                 }else{
                                     res.json("You saved the recipe");
                                 }
@@ -493,7 +463,7 @@ app.post("/api/recipe/save/:email", auth,function (req, res) {;
 );
 
 //get all the saved recipes of user
-app.get("/api/recipes/saved/:email",auth,function(req,res){
+app.get("/api/recipes/saved/:email",auth,function(req,res, next){
     User.findOne({
         email: req.params.email
     }).populate({
@@ -536,7 +506,7 @@ app.get("/api/recipes/saved/:email",auth,function(req,res){
 });
 
 //like a recipe
-app.put('/api/recipes/like/:email',auth,function(req,res){
+app.put('/api/recipes/like/:email',auth,function(req,res, next){
     console.log(req.body);
     Recipe.findOne({
         _id: req.body.recipeid
@@ -552,8 +522,7 @@ app.put('/api/recipes/like/:email',auth,function(req,res){
                 }else{
                     recipe.likes.push(user);
                     recipe.save(function(err){
-                        if(err){
-                            res.status(500).send("Recipe could not be liked");
+                        if (err) { return next(err); 
                         }else{
                             res.json("Recipe liked");
                         }
@@ -565,7 +534,7 @@ app.put('/api/recipes/like/:email',auth,function(req,res){
 });
 
 //unlike a recipe
-app.put('/api/recipes/unlike/:email',function(req,res){
+app.put('/api/recipes/unlike/:email',function(req,res, next){
     Recipe.findOne({
         _id: req.body.recipeid
     },function(err,recipe){
@@ -583,7 +552,7 @@ app.put('/api/recipes/unlike/:email',function(req,res){
                     recipe.likes.splice(userIndex,1);
 
                     recipe.save(function(err){
-                        if(err) throw err;
+                        if (err) { return next(err); }
                         res.json("unliked"); 
                     });
                    
@@ -595,7 +564,7 @@ app.put('/api/recipes/unlike/:email',function(req,res){
     );
 
 //feed
-app.get('/api/feed/:email/:page',auth,function(req,res){
+app.get('/api/feed/:email/:page',auth,function(req,res, next){
     User.findOne({
         email: req.params.email
     }).select('follows').populate({
@@ -631,7 +600,7 @@ app.get('/api/feed/:email/:page',auth,function(req,res){
         }
     })
     .exec(function(err, user){
-        if(err) res.status(500).send("Recipe not found");
+        if (err) { return next(err); }
         
         var users = user.follows;
         var posts = [];

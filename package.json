@@ -6,7 +6,8 @@
     "ng": "ng",
     "start": "source app-env && node server.js ",
     "build": "ng build -prod --aotn",
-    "test": "node ./node_modules/jasmine/bin/jasmine.js",
+    "test": "source app-env.spec && node ./node_modules/jasmine/bin/jasmine.js",
+    "start-test":"source app-env.spec && node server.js",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ng build"

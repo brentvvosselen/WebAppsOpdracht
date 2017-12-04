@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
 import { AuthenticationService } from '../authentication.service';
 import { User } from '../models/user';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-navigation',
@@ -10,6 +11,7 @@ import { User } from '../models/user';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+  
 
   private _foundUsers: User[];
   private _user: String;
@@ -21,6 +23,7 @@ export class NavigationComponent implements OnInit {
       this._user = e;
     })
   }
+
 
   search(string: HTMLInputElement){
     console.log(string.value)

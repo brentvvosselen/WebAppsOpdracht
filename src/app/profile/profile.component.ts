@@ -3,6 +3,7 @@ import { ProfileService } from '../services/profile.service';
 import { Post } from '../models/post';
 import { Image } from '../models/image';
 import { AuthenticationService } from '../authentication.service';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
     console.log("getting posts");
     this._profileService.getMyPosts(this.authenticationService.user$.value).subscribe(posts => this._posts = posts);
   }
+  
 
   showPreview(){
     var file = this.fileInput.nativeElement.files[0];

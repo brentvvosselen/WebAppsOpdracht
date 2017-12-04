@@ -6,13 +6,17 @@ import { User } from '../models/user';
 import { Post } from '../models/post';
 import { Image } from '../models/image';
 import { AuthenticationService } from '../authentication.service';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnChanges {
+  ngOnChanges(): void {
+    console.log("change");
+  }
 
   private _email: string;
   private _user: User;
@@ -21,7 +25,12 @@ export class UserComponent implements OnInit {
   private _profileImage: Image
 
   constructor(private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
-    this.route.params.subscribe(params => this._email = params.email)
+    this.route.paramMap.subscribe(params => {
+      this._email = params["params"]["email"];
+      console.log(params);
+
+    
+    
     
     this.profileService.getUserProfile(this._email).subscribe(user => {
       this._user = user
@@ -33,12 +42,13 @@ export class UserComponent implements OnInit {
       });
     });
 
+  });
+
     
 
   }
 
   ngOnInit() {
-    
     
   }
 
