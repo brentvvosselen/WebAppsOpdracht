@@ -7,7 +7,7 @@ var morgan = require('morgan');
 var config = require('./config');
 
 var jwt = require('express-jwt')
-let auth = jwt({secret:config.secret, userProperty: 'payload'});
+let auth = jwt({secret:process.env.BULKR_SECRET, userProperty: 'payload'});
 
 
 
@@ -28,8 +28,8 @@ app.use(morgan("dev"));
 
 //configuration
 var port = process.env.PORT || 3000;
-mongoose.connect(config.database);
-app.set('superSecret', config.secret);
+mongoose.connect(process.env.BULKR_DB);
+app.set('superSecret', process.env.BULKR_SECRET);
 
 //use body parser to get info from POST and URL parameters
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -654,8 +654,8 @@ app.get('/api/feed/:email/:page',auth,function(req,res){
     });
 });
 
-app.use(express.static(__dirname + '/dist'));
+/*app.use(express.static(__dirname + '/dist'));
 app.all('*',(req,res) => {
     const indexFile = `${__dirname}/dist/index.html`;
     res.status(200).sendFile(indexFile);
-})
+})*/
