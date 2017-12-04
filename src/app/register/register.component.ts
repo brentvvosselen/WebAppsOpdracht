@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   
   model: any = {};
+  private _error: string;
 
   registerForm: FormGroup;
   
@@ -58,14 +59,24 @@ export class RegisterComponent implements OnInit {
      this.authenticationService.checkUserNameAvailability(this.model.email).subscribe(e => {
        if(e == false){
          console.log('USER EXISTS');
+         this._error = 'User Already Exists';
        }else{
         this.authenticationService.register(this.model.email,this.model.password).subscribe(value => {
-          this.router.navigate(['/login']);
+          if(value == true){
+            this.router.navigate(['/login']);
+          }else{
+            this._error = "Not logged in";
+          }
+          
          });
        }
        });
 
        
+     }
+
+     get error(): string{
+       return this._error;
      }
   }
 

@@ -13,7 +13,7 @@
               <input type="file" id="file" name="file" (change)="showPreview()" #fileInput/>
               <img *ngIf="image" class="preview img img-responsive" width="150px" src="data:{{image.filetype}};base64,{{image.value}}" alt="{{image.filename}}" #preview/>
           
-              
+              <p>{{error}}</p>
               <button  mat-raised-button color="primary" type="submit">Voeg toe</button>
             </form>
       </div>

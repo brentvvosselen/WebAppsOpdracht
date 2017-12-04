@@ -3,7 +3,8 @@ import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
 import { AuthenticationService } from '../authentication.service';
 import { Image } from '../models/image';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
@@ -14,12 +15,13 @@ export class NewPostComponent implements OnInit {
   
   private _post: Post;
   currentUser: string;
+  private _error: string;
 
   @ViewChild('fileInput') fileInput;
   @ViewChild('preview') preview;
   image: Image;
 
-  constructor(private postService: PostService, private authenticationService: AuthenticationService) { }
+  constructor(private postService: PostService, private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     this._post = new Post();
@@ -28,7 +30,19 @@ export class NewPostComponent implements OnInit {
 
   add(){
     
-    this.postService.addPost(this.currentUser,this._post).subscribe(res => (console.log(res)));
+    if(this._post.description == undefined || this._post.title == undefined){
+      this._error = "Not all fields are filled in";
+    }else{
+      this.postService.addPost(this.currentUser,this._post).subscribe(res => (this.router.navigate(["/feed"])),
+      (err: HttpErrorResponse) => {
+        if(err.error instanceof Error){
+          this._error = err.error.message;
+        }else{
+          this._error = "Could not add post";
+        }
+      });
+    }
+   
   }
 
   showPreview(){
@@ -46,6 +60,10 @@ export class NewPostComponent implements OnInit {
 
   get post():Post{
     return this._post;
+  }
+
+  get error(): string{
+    return this._error;
   }
 
 }

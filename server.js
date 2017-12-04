@@ -222,6 +222,9 @@ app.get("/api/user/:email",auth, function(req,res,next){
     .exec(function(err,user){
         if (err) { return next(err); }
         console.log(user);
+        user.posts.sort(function(a,b){
+            return b.createdAt - a.createdAt;
+        });
         res.json(user);
     })
 });
@@ -407,7 +410,11 @@ app.get("/api/recipe/getAll/:email",auth,function (req, res, next) {
             if (err || user === null) {
                 res.status(500).send("User could not be retrieved");
             } else {
-                res.json(user.posts);
+                var posts = user.posts;
+                posts.sort(function(a,b){
+                    return b.createdAt - a.createdAt;
+                });
+                res.json(posts);
             }
         });
 });
@@ -500,7 +507,7 @@ app.get("/api/recipes/saved/:email",auth,function(req,res, next){
             res.status(500).send("User could not be retrieved");
         }else{
             console.log(user.saves);
-            res.json(user.saves);
+            res.json(user.saves.reverse());
         }
     })
 });
@@ -614,11 +621,10 @@ app.get('/api/feed/:email/:page',auth,function(req,res, next){
         
         var index = req.params.page;
         posts.sort(function(a,b){
-            return a.createdAt - b.createdAt;
+            return b.createdAt - a.createdAt;
         });
 
         posts = posts.slice(index * 5, index*5 + 5);
-        console.log(posts);
         res.json(posts);
     });
 });

@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
   login(){
     this.loading = true;
     this.authenticationService.login(this.model.email,this.model.password).subscribe(res => {
-      this.router.navigate([this.returnUrl]);
       console.log("logged in");
     }, error => {
       console.log("not logged in");

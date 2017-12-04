@@ -79,6 +79,7 @@ $(document).ready(function() {
                                 <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
                               </div>
                       
+                        <div class="col-xs-6">{{error}}</div>
                        <div class="col-xs-6 form-group pull-right">     
                              <input (click)="login()" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
                        </div>

@@ -23,6 +23,10 @@ body{
 .mat-fab.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary{
     background-color: #2D3B55;
 }
+
+p, h1, h2, h3, h4, h5, h6{
+    cursor: default;
+}
 /*body{
     background-color: beige;
     overflow-x: hidden;
