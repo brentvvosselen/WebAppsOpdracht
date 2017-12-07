@@ -10,3 +10,8 @@ textarea{
 button{
     margin-top:2em;
 }
+.new-post-error{
+    font-weight: 500;
+    color: red;
+    font-size: 1.7rem;
+}

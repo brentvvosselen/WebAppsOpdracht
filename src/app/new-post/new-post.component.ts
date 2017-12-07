@@ -38,7 +38,7 @@ export class NewPostComponent implements OnInit {
         if(err.error instanceof Error){
           this._error = err.error.message;
         }else{
-          this._error = "Could not add post";
+          this._error = "Picture is too big.";
         }
       });
     }

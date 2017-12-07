@@ -194,3 +194,6 @@ input{
     background-color: #2D3B55;
   }
   
+  h1{
+    letter-spacing: .1em;
+  }

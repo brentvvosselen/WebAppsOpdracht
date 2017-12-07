@@ -3,11 +3,11 @@
     <button class="btn-right" mat-button routerLink="/new" routerLinkActive="active">Post een nieuw recept.</button>
     <app-post-view *ngFor="let post of posts" [post]="post"></app-post-view>
    
-    <div class="row">
+  
             <div class="mb-1">
                     <button *ngIf="hasMorePosts" class="btn-right" mat-raised-button color="primary" (click)="more()">MEER POSTS</button>
             </div>
-    </div>
+ 
     
     
 </div>

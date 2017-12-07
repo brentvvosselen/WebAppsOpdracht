@@ -12,6 +12,9 @@
 }
 .image{
     border-radius:50%;
+    object-fit: cover;
+    height: 40px;
+    width: 40px;
 }
 
 mat-card-title a{

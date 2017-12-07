@@ -8,6 +8,8 @@ li a {
 
 li img{
     height: 2em;
+    width: 2em;
+    object-fit: cover;
 }
 
 .search-results{
@@ -46,6 +48,21 @@ li img{
 .li-search:focus .search-results{
     display:none;
 }
+
+.li-search-small form{
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 10px 15px;
+}
+
+.li-search-small .search{
+    width: 100% !important;
+}
+
+.li-search-small .search-results{
+    position: relative;
+}
 button, input{
     border-radius: 0;
 }
@@ -69,6 +86,8 @@ button, input{
 
 .navbar-toggle{
     border:none;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
     background:none;

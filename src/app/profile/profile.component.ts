@@ -3,7 +3,8 @@ import { ProfileService } from '../services/profile.service';
 import { Post } from '../models/post';
 import { Image } from '../models/image';
 import { AuthenticationService } from '../authentication.service';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,8 @@ import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 export class ProfileComponent implements OnInit {
 
   private _posts: Post[];
+  private _error: string;
+  private _previousPic;
 
   @ViewChild('fileInput') fileInput;
   @ViewChild('preview') preview;
@@ -29,6 +32,7 @@ export class ProfileComponent implements OnInit {
   
 
   showPreview(){
+    this._previousPic = this.profileImage;
     var file = this.fileInput.nativeElement.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -40,11 +44,23 @@ export class ProfileComponent implements OnInit {
   }
 
   addPicture(){
-    this._profileService.addPicture(this.authenticationService.user$.value,this.profileImage).subscribe(item => console.log(item));
+    this._profileService.addPicture(this.authenticationService.user$.value,this.profileImage).subscribe(item => {console.log(item); this._error = ""},
+  (err: HttpErrorResponse) => {
+    if(err.error instanceof Error){
+      this._error = err.error.message;
+    }else{
+      this._error = "The picture is too big."
+    }
+    this.profileImage = this._previousPic;
+  });
   }
 
   get posts(): Post[]{
     return this._posts;
+  }
+
+  get error(): string{
+    return this._error;
   }
 
 }
