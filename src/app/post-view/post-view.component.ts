@@ -23,7 +23,6 @@ export class PostViewComponent implements OnInit {
 
   ngOnInit() {
     this._user = this.authenticationService.user$.value;
-    console.log(this.post);
     if(this.post.id === undefined){
       this.post.id = this.post._id;
     }
@@ -54,7 +53,6 @@ export class PostViewComponent implements OnInit {
 
   bulkit(){
     if(!this._liked){
-      console.log(this.post.id);
       this.postService.bulkPost(this._user,this.post.id).subscribe(res => console.log(res));
       this._likes += 1;
       this._liked = true;

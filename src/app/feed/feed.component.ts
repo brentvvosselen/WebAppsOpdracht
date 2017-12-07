@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
 import { AuthenticationService } from '../authentication.service';
@@ -15,20 +16,23 @@ export class FeedComponent implements OnInit {
   private _user: string;
   private _hasMorePosts = false;
 
-  constructor(private postService: PostService, private authenticationService: AuthenticationService) { 
+  constructor(private router: Router, private postService: PostService, private authenticationService: AuthenticationService) { 
     this._user = this.authenticationService.user$.value;
-    this.postService.fillFeed(this._user,this._counter).subscribe(posts => {
-      if (posts.length < 5){
-        this._hasMorePosts = false;
-      }else{
-        this._hasMorePosts = true;
-      }
-      posts.forEach(e => {
-        this._posts.push(e);
+    if(!this._user){
+      this.router.navigateByUrl("/login");
+    }else{
+      this.postService.fillFeed(this._user,this._counter).subscribe(posts => {
+        if (posts.length < 5){
+          this._hasMorePosts = false;
+        }else{
+          this._hasMorePosts = true;
+        }
+        posts.forEach(e => {
+          this._posts.push(e);
+        });
       });
-    });
-
-    console.log(this.authenticationService.user$);
+    }
+    
   }
 
   ngOnInit() {

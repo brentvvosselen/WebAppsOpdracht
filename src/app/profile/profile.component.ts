@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
    }
 
   ngOnInit() {
-    console.log("getting posts");
     this._profileService.getMyPosts(this.authenticationService.user$.value).subscribe(posts => this._posts = posts);
   }
   

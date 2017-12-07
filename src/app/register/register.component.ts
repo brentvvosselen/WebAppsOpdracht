@@ -58,7 +58,6 @@ export class RegisterComponent implements OnInit {
      }
      this.authenticationService.checkUserNameAvailability(this.model.email).subscribe(e => {
        if(e == false){
-         console.log('USER EXISTS');
          this._error = 'User Already Exists';
        }else{
         this.authenticationService.register(this.model.email,this.model.password).subscribe(value => {
@@ -79,18 +78,3 @@ export class RegisterComponent implements OnInit {
        return this._error;
      }
   }
-
-
-
-function passwordValidator(length: number): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
-    return control.value.length < length ? { 'passwordTooShort': 
-      { requiredLength: length, actualLength: control.value.length } } : null;
-  };
-}
-
-function comparePasswords(control: AbstractControl): { [key: string]: any } {
-  const password = control.get('password');
-  const confirmPassword = control.get('confirmPassword');
-  return password.value === confirmPassword.value ? null : { 'passwordsDiffer': true };
-}

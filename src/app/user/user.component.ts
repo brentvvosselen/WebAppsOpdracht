@@ -27,15 +27,10 @@ export class UserComponent implements OnInit, OnChanges {
   constructor(private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
     this.route.paramMap.subscribe(params => {
       this._email = params["params"]["email"];
-      console.log(params);
-
-    
-    
-    
+     
     this.profileService.getUserProfile(this._email).subscribe(user => {
       this._user = user
       this._posts = this._user.posts.map(item => new Post(item["_id"],item.title,item.description,item.createdAt,item.likes,item.saves));
-      console.log(this._user);
       this._profileImage = this._user.picture;
       this.profileService.doesFollow(this.authenticationService.user$.value,this.user.email).subscribe(result => {
         this._follows = result;
@@ -53,13 +48,11 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   follow(){
-    console.log("follow");
     this.profileService.follow(this.authenticationService.user$.value,this.user.email).subscribe(result => console.log(result));
     this._follows = true;
   }
 
   unfollow(){
-    console.log("unfollow");
     this.profileService.unfollow(this.authenticationService.user$.value,this.user.email).subscribe(result => console.log(result));
     this._follows = false;
   }

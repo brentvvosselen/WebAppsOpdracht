@@ -53,7 +53,6 @@ export class NewPostComponent implements OnInit {
 
     reader.onload = () =>{
       this.image = new Image(file.name, file.type, reader.result.split(',')[1]);
-      console.log(this.image);
       this._post.picture = this.image;
     }
   }

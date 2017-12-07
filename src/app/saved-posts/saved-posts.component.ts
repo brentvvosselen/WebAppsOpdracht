@@ -17,8 +17,8 @@ export class SavedPostsComponent implements OnInit {
 
   ngOnInit() {
     this._user = this.authenticationService.user$.value;
-    this.postService.getSavedPosts(this._user).subscribe(posts => {this._savedPosts = posts; console.log(posts);});
-    console.log(this._savedPosts);
+    this.postService.getSavedPosts(this._user).subscribe(posts => {this._savedPosts = posts; console.log(posts);
+    });
   }
 
   get savedPosts(): Post[]{

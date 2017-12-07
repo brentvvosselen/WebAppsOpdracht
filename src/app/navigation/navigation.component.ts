@@ -26,11 +26,8 @@ export class NavigationComponent implements OnInit {
 
 
   search(string: HTMLInputElement){
-    console.log(string.value)
-    
     this.profileService.findUser(string.value).subscribe(e => {
        this._foundUsers = e;
-       console.log(e);
     });
   }
 
