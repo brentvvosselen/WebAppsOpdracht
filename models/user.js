@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 var Recipe = require('./recipe');
 let crypto = require('crypto');
 let jwt = require('jsonwebtoken');
-let config = require('../config');
 
 //create a schema 
 var userSchema = new Schema({
@@ -42,7 +41,7 @@ userSchema.methods.generateJWT = function(){
         _id: this._id,
         email: this.username,
         exp: parseInt(exp.getTime() / 1000)
-    }, config.secret);
+    }, process.env.BULKR_SECRET);
 };
 
 //create a model to use the schema

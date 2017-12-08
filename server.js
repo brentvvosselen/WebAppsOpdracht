@@ -4,8 +4,6 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
-var config = require('./config');
-
 var jwt = require('express-jwt')
 let auth = jwt({secret:process.env.BULKR_SECRET, userProperty: 'payload'});
 
@@ -221,7 +219,7 @@ app.get("/api/user/:email",auth, function(req,res,next){
     )
     .exec(function(err,user){
         if (err) { return next(err); }
-        console.log(user);
+        if(!user){ return next(err);}
         user.posts.sort(function(a,b){
             return b.createdAt - a.createdAt;
         });

@@ -51,6 +51,7 @@ import { MaterialModule } from './material.module';
       { path: "saves", component:SavedPostsComponent},
       { path: "register", component:RegisterComponent},
       { path: "login", component:LoginComponent},
+      { path: "404", component:NotFoundComponent},
       { path: "", component:FeedComponent},
       { path: "**", component:NotFoundComponent}
         

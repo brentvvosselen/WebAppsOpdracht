@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { User } from '../models/user';
 import { Post } from '../models/post';
 import { Image } from '../models/image';
 import { AuthenticationService } from '../services/authentication.service';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit, OnChanges {
-  ngOnChanges(): void {
-    console.log("change");
-  }
+export class UserComponent implements OnInit{
 
   private _email: string;
   private _user: User;
@@ -24,17 +21,27 @@ export class UserComponent implements OnInit, OnChanges {
   private _follows: boolean = false;
   private _profileImage: Image
 
-  constructor(private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
     this.route.paramMap.subscribe(params => {
       this._email = params["params"]["email"];
      
     this.profileService.getUserProfile(this._email).subscribe(user => {
+      if(user){
       this._user = user
       this._posts = this._user.posts.map(item => new Post(item["_id"],item.title,item.description,item.createdAt,item.likes,item.saves));
       this._profileImage = this._user.picture;
       this.profileService.doesFollow(this.authenticationService.user$.value,this.user.email).subscribe(result => {
         this._follows = result;
       });
+    }else{
+      this.router.navigateByUrl("/404");
+    }
+    },(err: HttpErrorResponse) => {
+      if(err.error instanceof Error){
+        this.router.navigateByUrl("/404");
+      }else{
+        this.router.navigateByUrl("/404");
+      }
     });
 
   });
