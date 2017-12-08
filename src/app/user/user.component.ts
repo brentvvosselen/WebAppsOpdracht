@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '../models/user';
 import { Post } from '../models/post';
 import { Image } from '../models/image';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({

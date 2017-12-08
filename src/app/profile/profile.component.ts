@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
 import { Post } from '../models/post';
 import { Image } from '../models/image';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 

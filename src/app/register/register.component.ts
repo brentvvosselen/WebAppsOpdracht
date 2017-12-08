@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,Validators, FormControl } from '@angular/forms';
 import { ValidatorFn, AbstractControl} from '@angular/forms';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { Observable } from 'rxjs/Observable';
 import { matchOtherValidator } from './matchOther';
 import { Router } from '@angular/router';

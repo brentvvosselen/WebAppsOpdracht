@@ -18,7 +18,7 @@ import { SavedPostsComponent } from './saved-posts/saved-posts.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './services/authentication.service';
 
 //material
 import { MaterialModule } from './material.module';

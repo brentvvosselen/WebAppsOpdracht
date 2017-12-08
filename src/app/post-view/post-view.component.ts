@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-post-view',

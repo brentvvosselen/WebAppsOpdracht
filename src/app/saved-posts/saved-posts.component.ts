@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { Post } from '../models/post';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-saved-posts',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../models/user';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 

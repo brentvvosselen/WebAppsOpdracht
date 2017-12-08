@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Post } from '../models/post';
 import { PostService } from '../services/post.service';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { Image } from '../models/image';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
