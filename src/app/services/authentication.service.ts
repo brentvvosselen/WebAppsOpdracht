@@ -8,7 +8,7 @@ export class AuthenticationService {
   private _url = '/api/users';
   private _user$: BehaviorSubject<string>;
 
-  private _prefix: string = "http://localhost:3000";
+  private _prefix: string = "";
 
 
   constructor(private http: Http) { 

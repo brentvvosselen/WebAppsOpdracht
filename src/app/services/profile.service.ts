@@ -10,7 +10,7 @@ import { Image } from '../models/image';
 @Injectable()
 export class ProfileService {
 
-  private _prefix: string = "http://localhost:3000";
+  private _prefix: string = "";
   private auth;
 
   constructor(private http: Http) { }
