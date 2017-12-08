@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
+    if(!this.authenticationService.user$.value){
+    this.router.navigateByUrl("/login");
+  } }
 
   ngOnInit() {
   }

@@ -21,7 +21,12 @@ export class NewPostComponent implements OnInit {
   @ViewChild('preview') preview;
   image: Image;
 
-  constructor(private postService: PostService, private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private postService: PostService, private authenticationService: AuthenticationService, private router: Router) {
+    
+    if(!this.authenticationService.user$.value){
+      this.router.navigateByUrl("/login");
+    }
+  }
 
   ngOnInit() {
     this._post = new Post();

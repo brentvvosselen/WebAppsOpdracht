@@ -22,6 +22,10 @@ export class UserComponent implements OnInit{
   private _profileImage: Image
 
   constructor(private router: Router, private profileService: ProfileService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
+    if(!this.authenticationService.user$.value){
+      this.router.navigateByUrl("/login");
+    }
+    
     this.route.paramMap.subscribe(params => {
       this._email = params["params"]["email"];
      

@@ -4,6 +4,7 @@ import { Post } from '../models/post';
 import { Image } from '../models/image';
 import { AuthenticationService } from '../services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,8 +22,12 @@ export class ProfileComponent implements OnInit {
   @ViewChild('preview') preview;
   profileImage: Image;
 
-  constructor(private _profileService: ProfileService, private authenticationService: AuthenticationService) {
-    this._profileService.getProfilePicture(this.authenticationService.user$.value).subscribe(pic => this.profileImage = pic);
+  constructor(private _profileService: ProfileService, private authenticationService: AuthenticationService, private router: Router) {
+    if(!this.authenticationService.user$.value){
+      this.router.navigateByUrl("/login");
+    }else{
+      this._profileService.getProfilePicture(this.authenticationService.user$.value).subscribe(pic => this.profileImage = pic);
+    }
    }
 
   ngOnInit() {
