@@ -16,13 +16,13 @@
           <a routerLink="/saves" routerLinkActive="active">My Saves</a>
         </li>
       </ul>
-      <ul class="nav navbar-nav show-lg right">
+      <ul class="nav navbar-nav right">
         <li>
           <a routerLink="/profile" routerLinkActive="active">Profile</a>
         </li>
         <li class="li-search">
           <form class="navbar-form" role="search">
-            <div class="input-group">
+            <div>
             <input id="searchval" type="text" class="form-control search" placeholder="Search" (keyup)="search(input)" #input>
             </div>
           </form>
@@ -30,9 +30,9 @@
           <ul class="search-results">
             <div *ngFor="let user of foundUsers">
               <li>
-                  <img *ngIf="!user.picture" class="img img-responsive pull-left" src="../../assets/noPicture.jpg" alt="no pic"/>
-                  <img *ngIf="user.picture" class="img img-responsive pull-left" src="data:{{user.picture.filetype}};base64,{{user.picture.value}}" alt="{{user.picture.filename}}" />
-                <a (click)="emptysearch(input)" routerLink="/profile/{{user.email}}" routerLinkActive="active">{{user.email}}</a>
+                  <a (click)="emptysearch(input)" routerLink="/profile/{{user.email}}" routerLinkActive="active"><img *ngIf="!user.picture" class="img img-responsive pull-left" src="../../assets/noPicture.jpg" alt="no pic"/>
+                    <img *ngIf="user.picture" class="img img-responsive pull-left" src="data:{{user.picture.filetype}};base64,{{user.picture.value}}" alt="{{user.picture.filename}}" />
+                  {{user.email}}</a>
               </li>
             </div>
           </ul>
@@ -41,31 +41,8 @@
           <a (click)="logout()">Log out</a>
         </li>
       </ul>
-      <ul class="nav navbar-nav hidden-lg">
-        <li>
-          <a routerLink="/profile" routerLinkActive="active">Profile</a>
-        </li>
-        <li class="li-search-small">
-          <form class="navbar-form" role="search">
-            <div class="">
-            <input id="searchval" type="text" class="form-control search" placeholder="Search" (keyup)="search(input)" #input>
-            </div>
-          </form>
-
-          <ul class="search-results">
-            <div *ngFor="let user of foundUsers">
-              <li>
-                  <img *ngIf="!user.picture" class="img img-responsive pull-left" src="../../assets/noPicture.jpg" alt="no pic"/>
-                  <img *ngIf="user.picture" class="img img-responsive pull-left" src="data:{{user.picture.filetype}};base64,{{user.picture.value}}" alt="{{user.picture.filename}}" />
-                <a (click)="emptysearch(input)" routerLink="/profile/{{user.email}}" routerLinkActive="active">{{user.email}}</a>
-              </li>
-            </div>
-          </ul>
-        </li>
-        <li>
-          <a (click)="logout()">Log out</a>
-        </li>
-      </ul>
+     
+      
     
     </div>
 

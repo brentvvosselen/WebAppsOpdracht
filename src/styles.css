@@ -43,15 +43,5 @@ p, h1, h2, h3, h4, h5, h6{
     color: red !important;
 }
 
-.show-lg{
-    display:none;
-}
 
-@media (min-width : 992px) {
-    .show-lg{
-        display:block;
-    }
-    .hidden-lg{
-        display:none;
-    }
-}
+
