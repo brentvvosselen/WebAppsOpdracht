@@ -8,7 +8,7 @@ import { Post } from '../models/post';
 @Injectable()
 export class PostService {
 
-  private _prefix: string = "http://localhost:3000";
+  private _prefix: string = "";
 
   constructor(private http: Http) { }
 
