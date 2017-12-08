@@ -16,9 +16,6 @@
                           <div *ngIf="registerForm.get('email').errors.required">
                             Email is verplicht
                           </div>
-                          <div *ngIf="registerForm.get('email').errors.minlength">
-                            Moet minstens 3 lang zijn
-                          </div>
                           <div *ngIf="registerForm.get('email').errors.pattern">
                             Geef een geldig email in
                           </div>
@@ -33,7 +30,7 @@
                                       Password is verplicht
                                     </div>
                                     <div *ngIf="registerForm.get('password').errors.minlength">
-                                      Moet minstens 3 lang zijn
+                                      Moet minstens 12 lang zijn
                                     </div>
                                   </div>                     </div>
                      <div class="form-group">
@@ -45,7 +42,7 @@
                                       Herhaal Passwoord is verplicht
                                     </div>
                                     <div *ngIf="registerForm.get('passwordConfirm').errors.minlength">
-                                      Moet minstens 3 lang zijn
+                                      Moet minstens 12 lang zijn
                                     </div>
                                     <div *ngIf="registerForm.get('passwordConfirm').errors.matchOther">
                                       Paswoorden komen niet overeen
