@@ -1,11 +1,7 @@
-###TESTEN
-Gebruik maken van vaste databank
-BULKR_DB="mongodb://user:user@ds129386.mlab.com:29386/bulkrtest"
-
-###HEROKU LINK
+## HEROKU LINK
 http://bulkr.herokuapp.com/
 
-##GUIDE FOR LOCAL RUNNING
+## GUIDE FOR LOCAL RUNNING
 in server.js at the bottom,
 put these lines in comment if they are not
 
@@ -28,3 +24,7 @@ create an app-env file which contains 2 values
 export BULKR_SECRET=[insert value]
 export BULKR_DB=[insert value]
 ```
+
+## TESTEN
+Gebruik maken van vaste databank
+BULKR_DB="mongodb://user:user@ds129386.mlab.com:29386/bulkrtest"
