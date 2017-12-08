@@ -1,15 +1,18 @@
-<div class="container-fluid">
-  <h1 *ngIf="user">This is the profile of {{user.email}}
-    <a *ngIf="!follows" class="btn btn-default" (click)="follow()">volg</a> 
-    <a *ngIf="follows" class="btn btn-default" (click)="unfollow()">Ontvolg</a></h1>
-  <img *ngIf="!profileImage" class="img img-responsive image" src="../../assets/noPicture.jpg"/>
-  <img *ngIf="profileImage" class="image" src="data:{{profileImage.filetype}};base64,{{profileImage.value}}" alt="{{profileImage.filename}}"/>
+<div class="profile-header">
+  <div class="container">
+    <img *ngIf="!profileImage" class="img img-responsive image" src="../../assets/noPicture.jpg" />
+    <img *ngIf="profileImage" class="image" src="data:{{profileImage.filetype}};base64,{{profileImage.value}}" alt="{{profileImage.filename}}"/>
+    <h2 *ngIf="user">{{user.email}}</h2>
+    <div class="button">
+      <a *ngIf="!follows" class="btn btn-default btn-follow" (click)="follow()">follow</a>
+      <a *ngIf="follows" class="btn btn-default btn-unfollow" (click)="unfollow()">unfollow</a>
+    </div>
+  </div>
+</div>
 
+<div class="container">
   <div *ngIf="user">
     <h2 *ngIf="user.posts.length === 0">The user has no posts.</h2>
-    <app-post-view  *ngFor="let post of user.posts" [post]="post"></app-post-view>
-  
+    <app-post-view *ngFor="let post of user.posts" [post]="post"></app-post-view>
   </div>
-  
-  
 </div>

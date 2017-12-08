@@ -43,5 +43,72 @@ p, h1, h2, h3, h4, h5, h6{
     color: red !important;
 }
 
+.profile-header{
+    width: 100%;
+    text-align: center;
+    margin-top: -20px;
+    background: #B0483D;
+}
 
+.profile-header .image{
+    object-fit: cover;
+    margin: 2em auto 0 auto !important;
+    border-radius: 50%;
+    width:125px !important;
+    height: 125px !important;
+    border: 3px solid white;
+}
+
+.profile-header h2{
+    margin-top:1rem;
+    margin-bottom: 1em;
+    font-weight: 700;
+    color: white;
+}
+
+.btn.btn-default.btn-follow{
+    text-transform: uppercase;
+    background:white;
+    color: #B0483D;
+    border:3px solid transparent;
+    border-radius: 0;
+    font-weight: 600;
+}
+
+.btn.btn-default.btn-unfollow{
+    text-transform: uppercase;
+    background: transparent;
+    border: 3px solid white;
+    border-radius: 0;
+    color: white;
+    font-weight: 600;
+}
+
+.btn.btn-default.btn-unfollow:hover{
+    background:white;
+    color: #B0483D;
+    transition:.2s ease-in-out;
+}
+.btn.btn-default.btn-follow:hover{
+    background: transparent;
+    border: 3px solid white;
+    color:white;
+    transition:.2s ease-in-out;
+}
+div.button{
+    padding-bottom: 2em;
+}
+
+@media (max-width:480px){
+    .profile-header .image{
+        width:100px !important;
+        height: 100px !important;
+    }
+    .profile-header h2{
+        font-size:2rem;
+    }
+    .profile-header .btn.btn-default{
+        font-size:1.25rem;
+    }
+}
 
