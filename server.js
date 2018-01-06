@@ -53,7 +53,7 @@ function handleError(res, reason, message, code) {
 }
 
 app.get('/api/test',function(req,res,next){
-    res.send('works');
+    res.status(200).json({"message": "works"});
 })
 
 //register
@@ -237,7 +237,7 @@ app.get("/api/user/find/:string",auth,function(req,res, next){
     }else{
         User.find({
             email: {"$regex": req.params.string, "$options":"i"}
-        }).select(['email','picture']).populate('picture')
+        }).select(['email','picture','followers']).populate('picture')
         .exec(function(err,users){
             if (err) { return next(err); }
             
